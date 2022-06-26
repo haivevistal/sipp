@@ -1,0 +1,43 @@
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+.report_header_fields:focus, .report_header_fields:active, .report_header_fields {
+    border: none;
+    background: none;
+    border-bottom: 1px solid #111;
+    font-size:14px;
+    outline:0;
+}
+.reports_table {
+    margin-top: 32px;
+    border-bottom:0;
+    height: auto;
+    display: table;
+    border-collapse: collapse;
+}
+.reports_table tr { 
+    border-spacing: 0;
+    margin:0; 
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+.reports_table td, .reports_table th {
+    border: 1px solid #111;
+    margin:0;
+}
+.reports_table th {
+    text-align:center;
+    padding: 15px 10px; 
+}
+.reports_table td {
+    padding: 5px 10px; 
+}
+.below_reports_table { margin-top: 45px;}
+.print_floating_btn {
+    position: absolute;
+    top: 85px;
+    right: 25px;
+}
+input, textarea{ display: none;}
+table, td, tr { border-}

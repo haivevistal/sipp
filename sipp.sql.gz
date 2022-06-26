@@ -1,0 +1,575 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jun 23, 2022 at 12:52 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 8.0.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `sipp`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activities`
+--
+
+CREATE TABLE `activities` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `incoming_id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `description` longtext NOT NULL,
+  `activity_type_id` int(11) NOT NULL,
+  `activity_date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `save_date_time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `activities`
+--
+
+INSERT INTO `activities` (`id`, `user_id`, `incoming_id`, `title`, `description`, `activity_type_id`, `activity_date`, `start_time`, `end_time`, `save_date_time`) VALUES
+(4, 10, 0, 'Activity 2', 'test update', 2, '2022-04-24', '14:23:00', '14:25:00', '2022-04-24 02:45:53'),
+(12, 10, 2, 'test incoming2', 'test incoming2', 4, '2022-05-08', '14:47:37', '08:50:42', '2022-05-08 14:47:37'),
+(15, 10, 4, 'test incoming4', 'test incoming4', 4, '2022-05-10', '08:41:28', '09:19:37', '2022-05-10 08:41:28'),
+(16, 10, 1, 'test incoming', 'test incoming', 4, '2022-05-10', '09:17:36', '09:19:29', '2022-05-10 09:17:36'),
+(17, 10, 3, 'test incoming3', 'test incoming3', 4, '2022-06-05', '09:19:44', '00:00:00', '2022-06-05 09:19:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_events`
+--
+
+CREATE TABLE `activity_events` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `activity_id` int(11) NOT NULL,
+  `type` text NOT NULL,
+  `save_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `activity_events`
+--
+
+INSERT INTO `activity_events` (`id`, `user_id`, `activity_id`, `type`, `save_date`) VALUES
+(5, 10, 1, 'incoming', '2022-05-08 13:35:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_types`
+--
+
+CREATE TABLE `activity_types` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `description` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `activity_types`
+--
+
+INSERT INTO `activity_types` (`id`, `name`, `description`) VALUES
+(2, 'Log Activity', 'Use this for logging activity'),
+(3, 'Update Company Data', 'Use this for updating company data'),
+(4, 'Incoming Activity', 'Incoming activity from the school');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcements`
+--
+
+CREATE TABLE `announcements` (
+  `id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `description` longtext NOT NULL,
+  `save_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `announcements`
+--
+
+INSERT INTO `announcements` (`id`, `title`, `description`, `save_date`) VALUES
+(2, 'test 1', 'test 1', '2022-05-01 10:54:55'),
+(3, 'aaa', 'aa', '2022-05-08 11:10:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attendances`
+--
+
+CREATE TABLE `attendances` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `description` longtext NOT NULL,
+  `company` text NOT NULL,
+  `image` text NOT NULL,
+  `date_time` datetime NOT NULL,
+  `start_date_time` datetime NOT NULL,
+  `end_date_time` datetime NOT NULL,
+  `status` int(11) NOT NULL,
+  `approve_date` datetime NOT NULL,
+  `save_date_time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `attendances`
+--
+
+INSERT INTO `attendances` (`id`, `user_id`, `title`, `description`, `company`, `image`, `date_time`, `start_date_time`, `end_date_time`, `status`, `approve_date`, `save_date_time`) VALUES
+(1, 13, 'user4 firstname User4 Lastname', 'Login', '1', '', '2022-06-05 18:17:29', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, '2022-06-05 18:18:53', '2022-06-05 23:39:33'),
+(2, 13, 'user4 firstname User4 Lastname', 'Logout', '1', 'blog-word-cloud1.jpg', '2022-06-05 23:19:09', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, '2022-06-05 18:30:47', '2022-06-05 23:40:11'),
+(3, 13, 'user4 firstname User4 Lastname', 'Login', '1', '', '2022-06-07 11:48:39', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, '2022-06-07 14:33:22', '2022-06-07 11:48:39'),
+(4, 13, 'user4 firstname User4 Lastname', 'Logout', '1', '', '2022-06-07 11:48:43', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, '2022-06-07 14:33:25', '2022-06-07 11:48:43'),
+(5, 13, 'user4 firstname User4 Lastname', 'Login', '1', '', '2022-06-19 15:00:32', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', '2022-06-19 15:00:32'),
+(6, 13, 'user4 firstname User4 Lastname', 'Logout', '1', 'Group-4-1.png', '2022-06-19 15:00:52', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', '2022-06-19 15:00:52'),
+(7, 14, 'user5 firstname User5 Lastname', 'Login', '1', '', '2022-06-19 18:41:38', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', '2022-06-19 18:41:38'),
+(8, 14, 'user5 firstname User5 Lastname', 'Logout', '1', 'Fill-1-1.png', '2022-06-19 18:42:44', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', '2022-06-19 18:42:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `companies`
+--
+
+CREATE TABLE `companies` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `address` text NOT NULL,
+  `contact` text NOT NULL,
+  `save_date_time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `companies`
+--
+
+INSERT INTO `companies` (`id`, `name`, `address`, `contact`, `save_date_time`) VALUES
+(1, 'Company 2', 'Address 2', '749404555', '2022-04-20 03:05:38'),
+(2, 'Company 1', 'Address 1', '749404555', '2022-04-20 03:05:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `courses`
+--
+
+CREATE TABLE `courses` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `shortname` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `save_date_time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `courses`
+--
+
+INSERT INTO `courses` (`id`, `name`, `shortname`, `description`, `save_date_time`) VALUES
+(2, 'BSCS', 'BSCS', 'BSCS', '2022-04-17 15:50:43'),
+(3, 'BSHM', 'BSHM', 'BSHM', '2022-04-17 16:58:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `description` mediumtext NOT NULL,
+  `attachement` text NOT NULL,
+  `seen` int(11) NOT NULL,
+  `date_save` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `user_id`, `title`, `description`, `attachement`, `seen`, `date_save`) VALUES
+(1, 10, 'test', 'test desc', 'lkup_bus_logs.sql', 0, '2022-05-08 10:32:06'),
+(2, 10, 'test', 'test', 'customers.xls', 0, '2022-05-08 10:47:09'),
+(3, 13, 'tesat', 'teststa', '', 0, '2022-06-05 14:58:53');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `incoming_activities`
+--
+
+CREATE TABLE `incoming_activities` (
+  `iid` int(11) NOT NULL,
+  `ititle` text NOT NULL,
+  `idescription` longtext NOT NULL,
+  `attachement` text NOT NULL,
+  `date_save` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `incoming_activities`
+--
+
+INSERT INTO `incoming_activities` (`iid`, `ititle`, `idescription`, `attachement`, `date_save`) VALUES
+(1, 'test incoming', 'test incoming', '', '2022-05-08 06:22:13'),
+(2, 'test incoming2', 'test incoming2', '', '2022-05-08 06:22:13'),
+(3, 'test incoming3', 'test incoming3', '', '2022-05-08 06:22:13'),
+(4, 'test incoming4', 'test incoming4', '', '2022-05-08 06:22:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `supervisor_id` int(11) NOT NULL,
+  `seen` int(11) NOT NULL,
+  `date_save` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `content`, `supervisor_id`, `seen`, `date_save`) VALUES
+(1, 'test message asdfafd asfdfda fdadf afddafd afd afda fda fda fda fda fd afd asfd a fdadf a fdafdas', 11, 1, '2022-06-05 14:52:57'),
+(2, 'sending test message', 11, 1, '2022-06-05 14:57:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `portfolio`
+--
+
+CREATE TABLE `portfolio` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `table_of_contents` longtext NOT NULL,
+  `acknowledgement` longtext NOT NULL,
+  `introduction` longtext NOT NULL,
+  `vmg` mediumtext NOT NULL,
+  `history` longtext NOT NULL,
+  `org_chart` longtext NOT NULL,
+  `weekly_narrative_report` longtext NOT NULL,
+  `learnings` longtext NOT NULL,
+  `conclusion` longtext NOT NULL,
+  `parent_consent` longtext NOT NULL,
+  `application_letter` longtext NOT NULL,
+  `cor` longtext NOT NULL,
+  `endorsement_letter` longtext NOT NULL,
+  `pictures` text NOT NULL,
+  `dtr` longtext NOT NULL,
+  `copy_moa` text NOT NULL,
+  `cert_ojt_completion` text NOT NULL,
+  `evaluation_sheet` text NOT NULL,
+  `resume` text NOT NULL,
+  `attachement` text NOT NULL,
+  `pdf_link` text NOT NULL,
+  `date_save` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `portfolio`
+--
+
+INSERT INTO `portfolio` (`id`, `user_id`, `table_of_contents`, `acknowledgement`, `introduction`, `vmg`, `history`, `org_chart`, `weekly_narrative_report`, `learnings`, `conclusion`, `parent_consent`, `application_letter`, `cor`, `endorsement_letter`, `pictures`, `dtr`, `copy_moa`, `cert_ojt_completion`, `evaluation_sheet`, `resume`, `attachement`, `pdf_link`, `date_save`) VALUES
+(1, 14, '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<strong><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></strong>\r\n', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '14_portfolio.pdf', '2022-06-19 19:22:11'),
+(2, 14, '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<strong><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></strong>\r\n', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '14_portfolio.pdf', '2022-06-19 19:22:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting`
+--
+
+CREATE TABLE `setting` (
+  `id` int(11) NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `value` longtext NOT NULL,
+  `setting_id` int(11) NOT NULL,
+  `by_who` int(11) NOT NULL,
+  `data_type` varchar(100) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `date_updated` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `setting`
+--
+
+INSERT INTO `setting` (`id`, `code`, `value`, `setting_id`, `by_who`, `data_type`, `date_added`, `date_updated`) VALUES
+(1, 'page_title', 'SIPP System', 1, 1, 'text', '2022-01-16 17:00:58', '2022-01-17 01:26:50'),
+(2, 'logo', '{\"name\":\"mckinley.png\",\"type\":\"image/png\",\"url\":\"http://sipp.local/uploads/mckinley.png\"}', 1, 1, 'image', '2022-01-16 17:00:58', '2022-01-17 01:26:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(25) NOT NULL,
+  `lastname` varchar(25) NOT NULL,
+  `gender` varchar(6) NOT NULL,
+  `phone` varchar(25) NOT NULL,
+  `bio` longtext NOT NULL,
+  `photo` text NOT NULL,
+  `course` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(155) NOT NULL,
+  `usertype` int(11) NOT NULL,
+  `total_hours` int(11) NOT NULL,
+  `remaining_hours` float NOT NULL,
+  `rendered_hours` int(11) NOT NULL,
+  `start_ojt` datetime DEFAULT NULL,
+  `end_ojt` datetime DEFAULT NULL,
+  `company_id` int(11) NOT NULL,
+  `privilege` varchar(100) NOT NULL,
+  `date_saved` datetime NOT NULL,
+  `date_updated` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `firstname`, `lastname`, `gender`, `phone`, `bio`, `photo`, `course`, `email`, `username`, `password`, `usertype`, `total_hours`, `remaining_hours`, `rendered_hours`, `start_ojt`, `end_ojt`, `company_id`, `privilege`, `date_saved`, `date_updated`) VALUES
+(10, 'User1 Firstname', 'User1 Lastname', 'm', '9171206100', 'test bio update', 'blog-word-cloud1.jpg', 0, 'boholweb.wp@gmail.com', 'user1', '16d7a4fca7442dda3ad93c9a726597e4', 1, 400, 400, 0, '2022-06-05 00:00:00', '2022-06-29 00:00:00', 2, '', '2022-04-17 20:29:01', '2022-06-05 13:32:59'),
+(11, 'User2 Firstname', 'User2 Lastname', 'm', '1237547323', 'afaf', '', 0, 'boholweb.ha@gmail.com', 'user2', '16d7a4fca7442dda3ad93c9a726597e4', 2, 0, 0, 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, '', '2022-04-18 00:49:09', '2022-06-05 13:32:49'),
+(12, 'User3 Firstname', 'User3 Lastname', 'm', '74849545444', 'user 3 test', '', 2, 'user3@gmail.com', 'user3', '16d7a4fca7442dda3ad93c9a726597e4', 3, 400, 0, 0, '2022-06-08 00:00:00', '2022-07-31 00:00:00', 1, '', '2022-06-05 09:56:26', '2022-06-05 13:32:20'),
+(13, 'user4 firstname', 'User4 Lastname', 'm', '89404854', 'test', 'blog-word-cloud1.jpg', 2, 'user4@gmail.com', 'user4', '16d7a4fca7442dda3ad93c9a726597e4', 4, 400, 0, 0, '2022-06-05 00:00:00', '2022-06-25 00:00:00', 1, '', '2022-06-05 10:19:13', '2022-06-05 15:21:05'),
+(14, 'user5 firstname', 'User5 Lastname', 'm', '89404854', 'test', 'blog-word-cloud1.jpg', 2, 'user5@gmail.com', 'user5', '16d7a4fca7442dda3ad93c9a726597e4', 4, 400, 0, 0, '2022-06-05 00:00:00', '2022-06-25 00:00:00', 1, '', '2022-06-05 10:19:13', '2022-06-05 15:21:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_types`
+--
+
+CREATE TABLE `user_types` (
+  `id` int(11) NOT NULL,
+  `usertype` varchar(25) NOT NULL,
+  `type_desc` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_types`
+--
+
+INSERT INTO `user_types` (`id`, `usertype`, `type_desc`) VALUES
+(1, 'Admin', 'Admin'),
+(2, 'Supervisor', 'Supervisor'),
+(3, 'Teacher', 'Teacher'),
+(4, 'Student', 'Student');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `activities`
+--
+ALTER TABLE `activities`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `activity_events`
+--
+ALTER TABLE `activity_events`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `activity_types`
+--
+ALTER TABLE `activity_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `attendances`
+--
+ALTER TABLE `attendances`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `companies`
+--
+ALTER TABLE `companies`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `courses`
+--
+ALTER TABLE `courses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `incoming_activities`
+--
+ALTER TABLE `incoming_activities`
+  ADD PRIMARY KEY (`iid`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `portfolio`
+--
+ALTER TABLE `portfolio`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `setting`
+--
+ALTER TABLE `setting`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_types`
+--
+ALTER TABLE `user_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `activities`
+--
+ALTER TABLE `activities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `activity_events`
+--
+ALTER TABLE `activity_events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `activity_types`
+--
+ALTER TABLE `activity_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `announcements`
+--
+ALTER TABLE `announcements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `attendances`
+--
+ALTER TABLE `attendances`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `companies`
+--
+ALTER TABLE `companies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `courses`
+--
+ALTER TABLE `courses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `incoming_activities`
+--
+ALTER TABLE `incoming_activities`
+  MODIFY `iid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `portfolio`
+--
+ALTER TABLE `portfolio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `setting`
+--
+ALTER TABLE `setting`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `user_types`
+--
+ALTER TABLE `user_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
