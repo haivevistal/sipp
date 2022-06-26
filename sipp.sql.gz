@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2022 at 12:52 PM
+-- Generation Time: Jun 26, 2022 at 04:17 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.9
 
@@ -112,7 +112,8 @@ CREATE TABLE `announcements` (
 
 INSERT INTO `announcements` (`id`, `title`, `description`, `save_date`) VALUES
 (2, 'test 1', 'test 1', '2022-05-01 10:54:55'),
-(3, 'aaa', 'aa', '2022-05-08 11:10:52');
+(3, 'aaa', 'aa', '2022-05-08 11:10:52'),
+(4, 'teast', 'atass', '2022-06-26 02:09:11');
 
 -- --------------------------------------------------------
 
@@ -214,9 +215,8 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`id`, `user_id`, `title`, `description`, `attachement`, `seen`, `date_save`) VALUES
-(1, 10, 'test', 'test desc', 'lkup_bus_logs.sql', 0, '2022-05-08 10:32:06'),
-(2, 10, 'test', 'test', 'customers.xls', 0, '2022-05-08 10:47:09'),
-(3, 13, 'tesat', 'teststa', '', 0, '2022-06-05 14:58:53');
+(2, 10, 'test complaint', 'test complaint', 'customers.xls', 1, '2022-05-08 10:47:09'),
+(3, 13, 'tesat', 'teststa', '', 1, '2022-06-05 14:58:53');
 
 -- --------------------------------------------------------
 
@@ -241,6 +241,27 @@ INSERT INTO `incoming_activities` (`iid`, `ititle`, `idescription`, `attachement
 (2, 'test incoming2', 'test incoming2', '', '2022-05-08 06:22:13'),
 (3, 'test incoming3', 'test incoming3', '', '2022-05-08 06:22:13'),
 (4, 'test incoming4', 'test incoming4', '', '2022-05-08 06:22:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `internship_plan`
+--
+
+CREATE TABLE `internship_plan` (
+  `id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `description` longtext NOT NULL,
+  `date_save` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `internship_plan`
+--
+
+INSERT INTO `internship_plan` (`id`, `title`, `description`, `date_save`) VALUES
+(1, 'Internship Plan 1', '<h1 style=\"text-align:center\">Table Of Contents</h1>\r\n\r\n<h2>What is Lorem Ipsum?</h2>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width:500px\">\r\n	<tbody>\r\n		<tr>\r\n			<td>afdaf</td>\r\n			<td>afdaf</td>\r\n		</tr>\r\n		<tr>\r\n			<td>afaf</td>\r\n			<td>adfa</td>\r\n		</tr>\r\n		<tr>\r\n			<td>afd</td>\r\n			<td>fafd</td>\r\n		</tr>\r\n	</tbody>\r\n</table>\r\n\r\n<p>&nbsp;</p>\r\n', '2022-06-26 03:28:25'),
+(2, 'Internship Plan 2', '<h1 style=\"text-align:center\"><span style=\"color:#e74c3c\">Title</span></h1>\r\n\r\n<h2>content</h2>\r\n\r\n<p>aafd</p>\r\n\r\n<p>adfafaf</p>\r\n', '2022-06-26 03:22:44');
 
 -- --------------------------------------------------------
 
@@ -302,8 +323,8 @@ CREATE TABLE `portfolio` (
 --
 
 INSERT INTO `portfolio` (`id`, `user_id`, `table_of_contents`, `acknowledgement`, `introduction`, `vmg`, `history`, `org_chart`, `weekly_narrative_report`, `learnings`, `conclusion`, `parent_consent`, `application_letter`, `cor`, `endorsement_letter`, `pictures`, `dtr`, `copy_moa`, `cert_ojt_completion`, `evaluation_sheet`, `resume`, `attachement`, `pdf_link`, `date_save`) VALUES
-(1, 14, '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<strong><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></strong>\r\n', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '14_portfolio.pdf', '2022-06-19 19:22:11'),
-(2, 14, '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<strong><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></strong>\r\n', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '14_portfolio.pdf', '2022-06-19 19:22:11');
+(1, 14, '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<p><strong>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strong></p>\r\n', '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<p><strong>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strong></p>\r\n', '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<p><strong>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strong></p>\r\n', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '13_portfolio.pdf', '2022-06-26 03:13:30'),
+(3, 13, '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<p><strong>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strong></p>\r\n', '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<p><strong>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strong></p>\r\n', '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<p><strong>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strong></p>\r\n', '', '<h2>What is Lorem Ipsum?</h2>\r\n\r\n<p><strong>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strong></p>\r\n', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '13_portfolio.pdf', '2022-06-26 09:04:34');
 
 -- --------------------------------------------------------
 
@@ -327,8 +348,9 @@ CREATE TABLE `setting` (
 --
 
 INSERT INTO `setting` (`id`, `code`, `value`, `setting_id`, `by_who`, `data_type`, `date_added`, `date_updated`) VALUES
-(1, 'page_title', 'SIPP System', 1, 1, 'text', '2022-01-16 17:00:58', '2022-01-17 01:26:50'),
-(2, 'logo', '{\"name\":\"mckinley.png\",\"type\":\"image/png\",\"url\":\"http://sipp.local/uploads/mckinley.png\"}', 1, 1, 'image', '2022-01-16 17:00:58', '2022-01-17 01:26:50');
+(1, 'pagetitle', 'The SIPP COORDINATOR INTERNSHIP MONITORING AND INTERN E-PORTFOLIO', 1, 13, 'text', '2022-01-16 17:00:58', '2022-06-26 08:25:35'),
+(2, 'logo', 'logo.png', 1, 13, 'image', '2022-01-16 17:00:58', '2022-06-26 08:25:35'),
+(3, 'title', 'SIPP', 1, 13, 'text', '2022-01-16 17:00:58', '2022-06-26 08:25:35');
 
 -- --------------------------------------------------------
 
@@ -391,7 +413,8 @@ INSERT INTO `user_types` (`id`, `usertype`, `type_desc`) VALUES
 (1, 'Admin', 'Admin'),
 (2, 'Supervisor', 'Supervisor'),
 (3, 'Teacher', 'Teacher'),
-(4, 'Student', 'Student');
+(4, 'Student', 'Student'),
+(14, 'Management', 'Management');
 
 --
 -- Indexes for dumped tables
@@ -452,6 +475,12 @@ ALTER TABLE `incoming_activities`
   ADD PRIMARY KEY (`iid`);
 
 --
+-- Indexes for table `internship_plan`
+--
+ALTER TABLE `internship_plan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `messages`
 --
 ALTER TABLE `messages`
@@ -507,7 +536,7 @@ ALTER TABLE `activity_types`
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `attendances`
@@ -540,6 +569,12 @@ ALTER TABLE `incoming_activities`
   MODIFY `iid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `internship_plan`
+--
+ALTER TABLE `internship_plan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
@@ -549,13 +584,13 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `portfolio`
 --
 ALTER TABLE `portfolio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `setting`
 --
 ALTER TABLE `setting`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -567,7 +602,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_types`
 --
 ALTER TABLE `user_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
