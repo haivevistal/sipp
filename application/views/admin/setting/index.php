@@ -70,6 +70,5 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
-
 </div>
 <!-- End of Content Wrapper -->
