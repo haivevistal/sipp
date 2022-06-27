@@ -2,7 +2,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-        <h1 class="logo me-auto"><a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>/assets/front/img/logo.png" class="" alt="">SIPP</a></h1>
+        <h1 class="logo me-auto"><a href="<?php echo base_url(); ?>"><img src="/assets/uploads/setting/<?php echo $this->setting_model->get_setting('logo')->value; ?>" style="width:40px;" /><?php echo $this->setting_model->get_setting('title')->value; ?></a></h1>
       <?php if( $this->session->userdata('user_id') ) { ?>
            <nav class="navbar navbar-expand-lg navbar-light bg-light">
               <div class="container-fluid">

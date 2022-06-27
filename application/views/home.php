@@ -61,3 +61,15 @@ This system helps the OJT trainee to easily login his or her attendance, view an
 
 </p>
  </div>
+ <style>
+ .fixed-content {
+    position: fixed;
+    top: 0px;
+    background: rgb(255, 255, 255);
+    width: 50%;
+    height: 100%;
+    z-index: 999;
+    padding: 50px;
+    display:none;
+ }
+ </style>

@@ -121,6 +121,20 @@
                     jQuery('.studentshow').addClass("hidediv");
                 }
             });
+            jQuery(document).on('change', '.rating', function() {
+                let id = jQuery(this).attr("data-id");
+                let rating_id = jQuery(this).val();
+                let user_id = jQuery(this).attr("data-user");
+                if( id != '' ) {
+                    jQuery.ajax({
+                        method: "POST",
+                        url: "/portal/updateactivityrating/",
+                        data: { id: id, rating_id: rating_id, user_id: user_id }
+                    }).done(function( msg ) {
+                        alert("Rating submitted!");
+                    });
+                }
+            });
         });
         jQuery(".viewfeedback").click( function() {
             let fid = jQuery(this).attr("data-id");

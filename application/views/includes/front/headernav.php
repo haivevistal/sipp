@@ -13,8 +13,8 @@
                         <div class="col-md-9 col-sm-12">
                             <h2 style="font-size:20px;"><?php echo $this->session->userdata('firstname')." ".$this->session->userdata('lastname'); ?></h2>
                             <div class="remaining_hours">
-                                <span class="badge bg-primary"><?php echo $user->remaining_hours; ?> remaining hours</span>
-                                <span class="badge bg-info"><?php echo $user->rendered_hours; ?> rendered hours</span>
+                                <span class="badge bg-primary"><?php echo ( floatval($user->total_hours) - floatval($this->user_model->count_rendered_hours_per_user()) ); ?> remaining hours</span>
+                                <span class="badge bg-info"><?php echo $this->user_model->count_rendered_hours_per_user(); ?> rendered hours</span>
                             </div>
                             <div class="login-logout-btns" style="margin-top: 10px;">
                                 <?php
@@ -67,7 +67,7 @@
                   <li class="nav-item dropdown">
                     <a class="nav-link" href="javascript:;" id="incoming_activities_drop" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 1px;margin-top: -7px;margin-right:-5px;">
                         <button type="button" class="btn btn-info position-relative bi bi-bell" style="color:#fff !important;">
-                            <?php $scount = $this->activities_model->count_incoming_activities(); ?>
+                            <?php $scount = $this->activities_model->count_incoming_activities($this->session->userdata('user_id')); ?>
                             <?php if($scount != 0) { ?>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             <?php echo $scount;?>
@@ -78,16 +78,16 @@
                     
                     <div class="dropdown-menu" aria-labelledby="incoming_activities_drop" style="z-index: 9999;min-width: 195px;padding:10px;padding-top: 0;">
                         <?php
-                        $incoming = $this->activities_model->incoming_activities();
+                        $incoming = $this->activities_model->incoming_activities($this->session->userdata('user_id'));
                         foreach($incoming as $inc) {
                             ?>
                             <div class="row" style="border-bottom: 1px solid #1111;padding-bottom: 5px;padding-top: 4px;">
                                 <div class="row">
                                     <div class="col-md-9">
-                                        <label data-item="title"><?php echo $inc->ititle; ?></label>
+                                        <label data-item="title"><?php echo $inc->title; ?></label>
                                     </div>
                                     <div class="col-md-3" style="text-align:right;">
-                                        <a href="<?php echo base_url(); ?>profile/start_incoming_activity/<?php echo $inc->iid?>"><span class="badge bg-info">Start</span></a>
+                                        <a href="<?php echo base_url(); ?>profile/start_incoming_activity/<?php echo $inc->id?>"><span class="badge bg-info">Start</span></a>
                                     </div>
                                 </div>
                             </div>

@@ -14,6 +14,10 @@
   <script src="<?php echo base_url(); ?>/assets/ckeditor4/ckeditor.js"></script>
    <script>
     $(document).ready(function() {
+        $(".doneactivitybtn").on("click", function() {
+            let a_ic = $(this).attr("data-id");
+            $("#doneActivityModal").find("#activity_id").val(a_ic);
+        });
         $('#attendance_table,#activities_table').DataTable({
             "paging":   true,
             "ordering": false,
@@ -33,14 +37,16 @@
           e.preventDefault()
           $(this).tab('show')
         });
+        
     } );
-
+    <?php if($this->uri->segment(2) == 'submit_portfolio') { ?>
     for( var n = 0 ; n <=20; n++ ) {
         CKEDITOR.replace('editor'+n, {
           height: 260,
           removeButtons: 'PasteFromWord'
         });
     }
+    <?php } ?>
    </script>
 
 </body>

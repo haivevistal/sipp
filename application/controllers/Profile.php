@@ -27,7 +27,7 @@ class Profile extends CI_Controller {
             $data["attendance"] = $this->attendance_model->user_attendance();
             $data["activities"] = $this->activities_model->user_activities();
             $data["announcements"] = $this->announcement_model->user_announcements();
-            $data["incoming_activities"] = $this->activities_model->incoming_activities();
+            $data["incoming_activities"] = $this->activities_model->incoming_activities( $this->session->userdata('user_id') );
             $this->load->view('includes/front/header', $data);
             $this->load->view('includes/front/headernav', $data);
             $this->load->view('includes/front/nav', $data);
@@ -438,10 +438,7 @@ class Profile extends CI_Controller {
             }
            
             /* Save to events */
-            $this->activities_model->insert_activity_event( $id, $user_id );
-            
-            /* Create New Activity for User */
-            $this->activities_model->new_activity_from_incoming( $id, $user_id );
+            $this->activities_model->read_incoming_activity( $id, $user_id );
             
             redirect( base_url('profile') );
         }
@@ -450,13 +447,41 @@ class Profile extends CI_Controller {
     /* Finish Activity */
     public function finish_activity() {
         if( $this->session->userdata('user_id') ) {
+            if( isset( $_POST["done_activity_attachment"]) ) {
+                $this->form_validation->set_rules('activity_id', 'Activity ID', 'required');
+
+                /* Upload activity image */
+                if( isset($_FILES['attachment']) && is_uploaded_file($_FILES['attachment']['tmp_name']) ) {
+                    $config['upload_path'] = './assets/uploads/activities';
+                    $config['max_size'] = 2000;
+                    
+                    $this->load->library('upload', $config);
+                    $this->upload->set_allowed_types('*');
+
+                    if( !$this->upload->do_upload('attachment') ) {
+                        $this->session->set_flashdata('error', 'There was some error during submission of a activity picture!<br />'.$this->upload->display_errors());
+                    } else {
+                        $this->session->set_flashdata('upload_msg', 'Activity Picture Successfully Submitted!');
+                    }
+                }
+                /* END - Upload activity image */
+                
+                $this->activities_model->finish_activity();
+                redirect( $this->input->post('redirect_url') );
+            }
+        }
+    }
+    
+    /* Reject Activity */
+    public function reject_activity() {
+        if( $this->session->userdata('user_id') ) {
             $id = $this->uri->segment(3);
             if (empty($id)) {
                 show_404();
             }
            
             /* Finish Activity */
-            $this->activities_model->finish_activity( $id );
+            $this->activities_model->reject_activity( $id );
             
             redirect( base_url('profile') );
         }

@@ -194,7 +194,7 @@
         
         <!-- Nav Item - Utilities Collapse Menu -->
         <?php
-            $utilitiespages = array("setting", "user_types", "activity_types");
+            $utilitiespages = array("setting", "user_types", "activity_types", "rating_options");
         ?>
         <li class="nav-item <?php if( in_array($this->uri->segment(2), $utilitiespages ) ) { ?>active<?php } ?>">
             <a class="nav-link <?php if( in_array($this->uri->segment(2), $utilitiespages ) ) { ?><?php } else { ?>collapsed<?php } ?>" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -208,7 +208,8 @@
                    <h6 class="collapse-header">Utilities:</h6>
                     <a class="collapse-item <?php if( $this->uri->segment(2) == 'setting' ) { ?>active<?php } ?>" href="<?php echo base_url(); ?>portal/setting/">Settings</a>
                     <a class="collapse-item <?php if( $this->uri->segment(2) == 'user_types' ) { ?>active<?php } ?>" href="<?php echo base_url(); ?>portal/user_types/">User Types</a>
-                   <a class="collapse-item <?php if( $this->uri->segment(2) == 'activity_types' ) { ?>active<?php } ?>" href="<?php echo base_url(); ?>portal/activity_types/">Activity Types</a>
+                    <a class="collapse-item <?php if( $this->uri->segment(2) == 'activity_types' ) { ?>active<?php } ?>" href="<?php echo base_url(); ?>portal/activity_types/">Activity Types</a>
+                    <a class="collapse-item <?php if( $this->uri->segment(2) == 'rating_options' ) { ?>active<?php } ?>" href="<?php echo base_url(); ?>portal/rating_options/">Rating Options</a>
             </div>
         </li>
     

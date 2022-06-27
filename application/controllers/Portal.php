@@ -370,8 +370,9 @@ class Portal extends CI_Controller {
         $this->is_logged_in();
         $data = array();
         $data["setting"] = $this->setting_model->setting_list();
-        $data['users'] = $this->user_model->users();
+        $data['users'] = $this->user_model->get_students();
         $data['activities'] = $this->activities_model->activity_list();
+        $data['rating_options'] = $this->setting_model->ratingoption_list();
         $this->load->view('includes/admin/header', $data);
         $this->load->view('includes/admin/nav', $data);
         $this->load->view('admin/activities/index', $data);
@@ -384,7 +385,7 @@ class Portal extends CI_Controller {
         $data["msg"] = "";
         $data["errormsg"] = "";
         $data["setting"] = $this->setting_model->setting_list();
-        $data['users'] = $this->user_model->users();
+        $data['users'] = $this->user_model->get_students();
         
         if( isset($_POST["save_activity"]) ) {
             
@@ -413,7 +414,7 @@ class Portal extends CI_Controller {
         $data["msg"] = "";
         $data["errormsg"] = "";
         $data["setting"] = $this->setting_model->setting_list();
-        $data['users'] = $this->user_model->users();
+        $data['users'] = $this->user_model->get_students();
 
         if (empty($id)) { 
             show_404();
@@ -583,6 +584,85 @@ class Portal extends CI_Controller {
         redirect( base_url('portal/user_types') );
     }
     /* END - User Types */
+    
+    /* User Types */
+    public function rating_options() {
+        $this->is_logged_in();
+        $data = array();
+        $data["msg"] = "";
+        $data["errormsg"] = "";
+        $data["setting"] = $this->setting_model->setting_list();
+        $data['rating_options'] = $this->setting_model->ratingoption_list();
+        $this->load->view('includes/admin/header', $data);
+        $this->load->view('includes/admin/nav', $data);
+        $this->load->view('admin/setting/rating_options', $data);
+        $this->load->view('includes/admin/footer', $data);
+    }
+    public function add_ratingoption() {
+        $this->is_logged_in();
+        $data = array();
+        $data["msg"] = "";
+        $data["errormsg"] = "";
+        $data["setting"] = $this->setting_model->setting_list();
+        if( isset($_POST["save_ratingoption"]) ) {
+            $this->form_validation->set_rules('title', 'Title', 'required');
+        
+            if ($this->form_validation->run() === TRUE)
+            {
+                $this->setting_model->add_ratingoption();
+                $data["msg"] = "Successfully Saved";
+            }
+        }
+        $this->load->view('includes/admin/header', $data);
+        $this->load->view('includes/admin/nav', $data);
+        $this->load->view('admin/setting/addratingoption', $data);
+        $this->load->view('includes/admin/footer', $data);
+    }
+    
+    public function edit_ratingoption() {
+        $this->is_logged_in();
+        $id = $this->uri->segment(3);
+        $data = array();
+        $data["msg"] = "";
+        $data["errormsg"] = "";
+        $data["setting"] = $this->setting_model->setting_list();
+
+        if (empty($id)) { 
+            show_404();
+        } else {
+            if( isset( $_POST["update_ratingoption"]) ) {
+                $this->form_validation->set_rules('title', 'Title', 'required');
+                
+                if ($this->form_validation->run() === TRUE)
+                {
+                    $this->setting_model->update_ratingoption();
+                    $data['ut'] = $this->setting_model->get_ratingoption_by_id($id);
+                    $data["msg"] = "Successfully Updated";
+                    $this->load->view('includes/admin/header', $data);
+                    $this->load->view('includes/admin/nav', $data);
+                    $this->load->view('admin/setting/editratingoption', $data);
+                    $this->load->view('includes/admin/footer', $data);
+                }
+            } else {
+                $data['ut'] = $this->setting_model->get_ratingoption_by_id($id);
+                $this->load->view('includes/admin/header', $data);
+                $this->load->view('includes/admin/nav', $data);
+                $this->load->view('admin/setting/editratingoption', $data);
+                $this->load->view('includes/admin/footer', $data);
+            }
+        }
+    }
+    public function delete_ratingoption() {
+        $this->is_logged_in();
+        $id = $this->uri->segment(3);
+        if (empty($id)) {
+            show_404();
+        }
+        
+        $res = $this->setting_model->delete_ratingoption($id);
+        redirect( base_url('portal/rating_options') );
+    }
+    /* END - Rating Options */
     
     /* Activity Types */
     public function activity_types() {
@@ -988,5 +1068,9 @@ class Portal extends CI_Controller {
         
         $res = $this->setting_model->delete_complaint($id);
         redirect( base_url('portal/complaints') );
+    }
+    
+    public function updateactivityrating() {
+        $this->activities_model->update_activity_rating($_POST["id"], $_POST["rating_id"], $_POST["user_id"]);
     }
 }

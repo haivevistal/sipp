@@ -60,6 +60,34 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="doneActivityModal" tabindex="-1" aria-labelledby="doneActivityModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="doneActivityModal">Submit an Attachment As a proof that you're done with the activity.</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form  method="POST" action="<?php echo base_url(); ?>profile/finish_activity" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label for="attachment" class="form-label">Attach A File</label> 
+                    <input type="file" class="form-control" id="attachment" name="attachment" required />
+                    <input type="hidden" name="activity_id" value="" id="activity_id" />
+                </div>
+            </div>
+            <input type="hidden" name="redirect_url" value="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?>" />
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" name="done_activity_attachment" class="btn btn-primary">Done Activity and Submit Attachment</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="timeoutViewModal" tabindex="-1" aria-labelledby="timeoutViewModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

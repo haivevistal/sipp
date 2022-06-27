@@ -117,6 +117,47 @@ class Setting_model extends CI_Model {
     }
     /* END- User Types */
     
+    /* Rating Options */
+    public function get_ratingoption_by_id($id)
+    {
+        $query = $this->db->get_where("rating_options", array('id' => $id));
+        return $query->row();
+    }
+    
+    public function ratingoption_list()
+    {
+        $query = $this->db->get("rating_options");
+        return $query->result();
+    }
+    
+    public function add_ratingoption()
+    {
+        $data = array(
+            'title'  => $this->input->post('title'),
+            'save_date' => date("Y-m-d H:i:s")
+        );
+        return $this->db->insert("rating_options", $data);
+    }
+    
+    public function update_ratingoption()
+    {
+        $id = $this->input->post('id');
+        $data = array(
+            'title'  => $this->input->post('title'),
+        );
+        if (!empty($id)) {
+            $this->db->where('id', $id);
+            return $this->db->update("rating_options", $data);
+        }
+    }
+    
+    public function delete_ratingoption($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete("rating_options");
+    }
+    /* END - Rating Options */
+    
     /* Activity Types */
     public function activitytypes_list()
     {

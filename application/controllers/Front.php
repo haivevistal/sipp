@@ -9,6 +9,7 @@ class Front extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('attendance_model');
         $this->load->model('activities_model');
+        $this->load->model('setting_model');
         $this->load->library('form_validation');
         $this->load->library('session');
     }

@@ -270,4 +270,36 @@ class User_model extends CI_Model {
             return false;
         }
     }
+    
+    public function count_rendered_hours_per_user() {
+        $user_id = $this->session->userdata('user_id');
+        $this->db->select('*');
+        $this->db->from('attendances');
+        $this->db->where('user_id',$user_id);
+        $result = $query = $this->db->get()->result();
+        
+        $new_attendances = array();
+        foreach( $result as $res ) {
+            $new_attendances[date("Y_m_d", strtotime($res->date_time) )][] = array(
+                'duration' => strtotime($res->date_time)
+            );
+        }
+        $total = 0;
+        foreach($new_attendances as $atd){
+            $t1 = 0;
+            $t2 = 0;
+            if( isset($atd[0]["duration"]) && isset($atd[1]["duration"]) ) {
+                $duration1 = $atd[0]["duration"];
+                $duration2 = $atd[1]["duration"];
+                $t1 = number_format( ( ($duration2 - $duration1) / 60 ) / 60, 2);
+            }
+            if( isset($atd[2]["duration"]) && isset($atd[3]["duration"]) ) {
+                $duration3 = $atd[2]["duration"];
+                $duration4 = $atd[3]["duration"];
+                $t2 = number_format( ( ($duration4 - $duration3) / 60 ) / 60, 2);
+            }
+            $total = $total + ( $t1 + $t2 );
+        }
+        return $total;
+    }
 }
