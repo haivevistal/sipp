@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="col-md-12 text-content">
-					<h2>SIPP COORDINATOR INTERNSHIP MONITORING AND INTERN E-PORTFOLIO</h2>
+					<h2 style="padding-top: 75px;font-size:32px;text-align: center;"><?php echo $this->setting_model->get_setting('homepagetitle')->value; ?></h2>
 				</div>
             </div>
             <div class="col-md-6">
@@ -43,23 +43,8 @@
   </section><!-- End Hero -->
  <div class="fixed-content">
 	<button class="close-content float-end" style="color: red;">x</button>
-	<h3 style=" font-style:bold;">The SIPP COORDINATOR INTERNSHIP MONITORING AND INTERN E-PORTFOLIO</h3>
-    <p class="fst-italic " style="font-family:Times New Roman;">
-    	<br>
-•	Provide automated recording of trainees’ attendance.
-<br>
-•	Provide trainees with electronic portfolio.
-<br>
-•	Provide trainees complaint message section that will direct to SIPP coordinator
-<br>
-•	Provide trainees Activity or task section.
-<br>
-
-This system helps the OJT trainee to easily login his or her attendance, view announcements, edit their profile, report the circumstances and request help from the admin or the SIPP coordinator, and easily create and process their portfolio. This system also provides an activity menu section where the Interns can view and modify their activities, and also provide a notification bell for them to be notified of the incoming activities given by the SIPP coordinator.
-
-</p>
-
-</p>
+	<h3 style=" font-style:bold;"><?php echo $this->setting_model->get_setting('homepagepopuptitle')->value; ?></h3>
+    <p class="fst-italic " style="font-family:Times New Roman;"><?php echo $this->setting_model->get_setting('homepagepopupcontent')->value; ?></p>
  </div>
  <style>
  .fixed-content {

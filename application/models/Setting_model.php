@@ -217,8 +217,10 @@ class Setting_model extends CI_Model {
     {
         $data = array(
             'name'  => $this->input->post('name'),
+            'email'  => $this->input->post('email'),
             'address' => $this->input->post('address'),
             'contact' => $this->input->post('contact'),
+            'supervisor' => $this->input->post('supervisor'),
             'save_date_time' => date("Y-m-d H:i:s")
         );
         return $this->db->insert("companies", $data);
@@ -229,8 +231,10 @@ class Setting_model extends CI_Model {
         $id = $this->input->post('id');
         $data = array(
             'name'  => $this->input->post('name'),
+            'email'  => $this->input->post('email'),
             'address' => $this->input->post('address'),
             'contact' => $this->input->post('contact'),
+            'supervisor' => $this->input->post('supervisor'),
             'save_date_time' => date("Y-m-d H:i:s")
         );
         if (!empty($id)) {

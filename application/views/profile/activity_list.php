@@ -33,7 +33,7 @@
                     <?php } else if($ac->activity_status == 4) { ?>
                     <span>Rejected</span>
                     <?php } else { ?>
-                    <button data-id="<?php echo $ac->id; ?>" data-bs-toggle="modal" data-bs-target="#doneActivityModal" class="doneactivitybtn"><span class="badge bg-info">Done</span></button>
+                    <button data-id="<?php echo $ac->id; ?>" data-bs-toggle="modal" data-bs-target="#doneActivityModal" class="doneactivitybtn" style="border:0;"><span class="badge bg-info">Done</span></button>
                     <a href="<?php echo base_url(); ?>profile/reject_activity/<?php echo $ac->id; ?>" class="delete" onClick="return confirm('Are you sure you want to reject?');" class="cancel">
                         <span class="badge bg-danger">Reject</span>
                     </a>

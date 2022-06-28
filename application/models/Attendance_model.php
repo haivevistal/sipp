@@ -24,6 +24,9 @@ class Attendance_model extends CI_Model {
     {
         $this->db->select('users.firstname,users.lastname, attendances.*');
         $this->db->join('users', 'users.id = attendances.user_id');
+        if($this->session->userdata('admin_usertype') == 2) {
+            $this->db->where("attendances.company", $this->session->userdata('admin_companyid'));
+        }
         $query = $this->db->get("attendances");
         return $query->result();
     }
@@ -103,11 +106,12 @@ class Attendance_model extends CI_Model {
         return $this->db->delete("attendances");
     }
     
-    public function attendance_exist($user_id,$type,$date1, $date2)
+    public function attendance_exist($user_id, $c, $type,$date1, $date2)
     {
         $this->db->select('*');
         $this->db->from('attendances');
         $this->db->where('user_id', $user_id);
+        $this->db->where('count', $c);
         $this->db->where('date_time >=', $date1);
         $this->db->where('date_time <=', $date2);
         $this->db->like('description', $type);

@@ -40,18 +40,31 @@ class Profile extends CI_Controller {
     }
     
     /* Time IN */
-    public function timein($n = '') {
+    public function timein() {
         if( $this->session->userdata('user_id') ) {
             $user_id = $this->session->userdata('user_id');
-            $attendance_exist = $this->attendance_model->attendance_exist( $user_id, "Login", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
-            if( $attendance_exist ) {
-                $data = array(
-                    'save_date_time' => date("Y-m-d H:i:s")
-                );
-                $this->attendance_model->update_exist_attendance($attendance_exist[0]['id'], $data);
+            $attendance_exist1 = $this->attendance_model->attendance_exist( $user_id, 1, "Login", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
+            if( $attendance_exist1 ) {
+                $attendance_exist2 = $this->attendance_model->attendance_exist( $user_id, 2, "Login", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
+                if( !$attendance_exist2 ) {
+                    $attendance_exist3 = $this->attendance_model->attendance_exist( $user_id, 1, "Logout", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
+                    if( $attendance_exist3 ) {
+                        $data = array(
+                            'user_id'  => $user_id,
+                            'count' => 2,
+                            'title' => $this->session->userdata('firstname')." ".$this->session->userdata('lastname'),
+                            'description' => "Login",
+                            'date_time' => date("Y-m-d H:i:s"),
+                            'company' => $this->session->userdata('company_id'),
+                            'save_date_time' => date("Y-m-d H:i:s")
+                        );
+                        $this->attendance_model->insert_attendance($data);
+                    }
+                }
             } else {
                 $data = array(
                     'user_id'  => $user_id,
+                    'count' => 1,
                     'title' => $this->session->userdata('firstname')." ".$this->session->userdata('lastname'),
                     'description' => "Login",
                     'date_time' => date("Y-m-d H:i:s"),
@@ -60,13 +73,13 @@ class Profile extends CI_Controller {
                 );
                 $this->attendance_model->insert_attendance($data);
             }
-            $this->session->set_userdata($n.'_'.date("Y-m-d")."_".$user_id, 'y');
+            $this->session->set_userdata('timein_'.date("Y-m-d")."_".$user_id, 'y');
             redirect( base_url('/profile/attendance?msg=timein_success') );
         }
     }
     
     /* Time Out */
-    public function timeout($n = '') {
+    public function timeout() {
         if( $this->session->userdata('user_id') ) {
             $user_id = $this->session->userdata('user_id');
             
@@ -90,13 +103,29 @@ class Profile extends CI_Controller {
             }
             /* END - Update attendance picture */
                 
-            $attendance_exist = $this->attendance_model->attendance_exist( $user_id, "Logout", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
-            if( $attendance_exist ) {
-                $data = array( 'save_date_time' => date("Y-m-d H:i:s") );
-                $this->attendance_model->update_exist_attendance($attendance_exist[0]['id'], $data);
+            $attendance_exist1 = $this->attendance_model->attendance_exist( $user_id, 1, "Logout", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
+            if( $attendance_exist1 ) {
+                $attendance_exist2 = $this->attendance_model->attendance_exist( $user_id, 2, "Logout", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
+                if( !$attendance_exist2 ) {
+                    $attendance_exist3 = $this->attendance_model->attendance_exist( $user_id, 2, "Login", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
+                    if( $attendance_exist3 ) {
+                        $data = array(
+                            'user_id'  => $user_id,
+                            'count' => 2,
+                            'title' => $this->session->userdata('firstname')." ".$this->session->userdata('lastname'),
+                            'description' => "Logout",
+                            'date_time' => date("Y-m-d H:i:s"),
+                            'company' => $this->session->userdata('company_id'),
+                            'image' => $_FILES["attachement"]["name"],
+                            'save_date_time' => date("Y-m-d H:i:s")
+                        );
+                        $this->attendance_model->insert_attendance($data);
+                    }
+                }
             } else {
                 $data = array(
                     'user_id'  => $user_id,
+                    'count' => 1,
                     'title' => $this->session->userdata('firstname')." ".$this->session->userdata('lastname'),
                     'description' => "Logout",
                     'date_time' => date("Y-m-d H:i:s"),
@@ -106,7 +135,7 @@ class Profile extends CI_Controller {
                 );
                 $this->attendance_model->insert_attendance($data);
             }
-            $this->session->set_userdata($n.'_'.date("Y-m-d")."_".$user_id, 'y');
+            $this->session->unset_userdata('timein_'.date("Y-m-d")."_".$user_id, 'y');
             redirect( base_url('/profile/attendance?msg=timeout_success') );
         }
     }
@@ -303,12 +332,18 @@ class Profile extends CI_Controller {
             $data['user'] = $this->user_model->get_user_by_id( $this->session->userdata('user_id') );
             $data["portfolio"] = $this->user_model->get_portfolio( $this->session->userdata('user_id') );
             $data["attendance"] = $this->user_model->get_attendance_images( $this->session->userdata('user_id') );
+            $data["activities"] = $this->activities_model->user_activities();
             
             $data_attendance = array();
             foreach( $data["attendance"] as $atd ) {
                 $data_attendance[] = array( $atd->description, date('m/d/Y', strtotime($atd->date_time) ), date('H:i', strtotime($atd->date_time) ), ($atd->status == 1 ? 'Approved' : 'Pending') );
             }
             $data["myattendance"] = $data_attendance;
+            
+            $data_activities = array();
+            foreach( $data["activities"] as $act ) {
+                $data_activities[] = array( $act->title, $act->description, date('m/d/Y', strtotime($act->activity_date) ), date('H:i', strtotime($act->start_time) ),  date('H:i', strtotime($act->end_time) ) );
+            }
             
             if( isset( $_POST["submit_portfolio"]) ) {
                 /* Upload Portfolio File */
@@ -337,22 +372,22 @@ class Profile extends CI_Controller {
                         array($this->input->post('table_of_contents'), "Table Of Contents"),
                         array($this->input->post('acknowledgement'), "Acknowledgement"),
                         array($this->input->post('introduction'), "Introduction"),
-                        array($this->input->post('vmg'), "HTE/Company Profile - VMG"),
-                        array($this->input->post('history'), "HTE/Company Profile - History"),
-                        array($this->input->post('org_chart'), "HTE/Company Profile - Org. Chart"),
-                        array($this->input->post('weekly_narrative_report'), "Weekly Narrative Report"),
-                        array($this->input->post('learnings'), "Narrative Report - Learnings"),
-                        array($this->input->post('conclusion'), "Narrative Report - Conclusion"),
-                        array($this->input->post('parent_consent'), "Appendices - Parent Consent"),
-                        array($this->input->post('application_letter'), "Appendices - Application Letter"),
-                        array($this->input->post('cor'), "Appendices - Certificate of Registration"),
-                        array($this->input->post('endorsement_letter'), "Appendices - Endorsement Letter"),
-                        array($this->input->post('pictures'), "Appendices - Pictures"),
-                        array($data_attendance, "Appendices - Daily Time Record"),
-                        array($this->input->post('copy_moa'), "Appendices - Copy Moa"),
-                        array($this->input->post('cert_ojt_completion'), "Appendices - Certificate Of OJT Completion"),
-                        array($this->input->post('evaluation_sheet'), "Appendices - Evaluation Sheet"),
-                        array($this->input->post('resume'), "Appendices - Resume")
+                        array($this->input->post('vmg'), "VMG"),
+                        array($this->input->post('history'), "History"),
+                        array($this->input->post('org_chart'), "Organizational Chart"),
+                        array($data_activities, "Weekly Narrative Report"),
+                        array($this->input->post('learnings'), "Learnings"),
+                        array($this->input->post('conclusion'), "Conclusion"),
+                        array($this->input->post('parent_consent'), "Parent Consent"),
+                        array($this->input->post('application_letter'), "Application Letter"),
+                        array($this->input->post('cor'), "Certificate of Registration"),
+                        array($this->input->post('endorsement_letter'), "Endorsement Letter"),
+                        array($this->input->post('pictures'), "Pictures"),
+                        array($data_attendance, "Daily Time Record"),
+                        array($this->input->post('copy_moa'), "Copy Moa"),
+                        array($this->input->post('cert_ojt_completion'), "Certificate Of OJT Completion"),
+                        array($this->input->post('evaluation_sheet'), "Evaluation Sheet"),
+                        array($this->input->post('resume'), "Resume")
                     ),
                     $file_name 
                 );

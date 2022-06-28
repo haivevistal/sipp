@@ -40,6 +40,7 @@ class Portal extends CI_Controller {
                     $this->session->set_userdata('admin_email',$login[0]['email']);
                     $this->session->set_userdata('admin_username',$login[0]['username']);
                     $this->session->set_userdata('admin_usertype', $login[0]['usertype']);
+                    $this->session->set_userdata('admin_companyid', $login[0]['company_id']);
                     
                     redirect( base_url('/portal?msg=success') );
                     
@@ -67,6 +68,7 @@ class Portal extends CI_Controller {
         $this->session->unset_userdata('admin_email');
         $this->session->unset_userdata('admin_username');
         $this->session->unset_userdata('admin_usertype');
+        $this->session->unset_userdata('admin_companyid');
         redirect( base_url('/portal/login/?msg=logout_success') );
     }
   
@@ -764,11 +766,13 @@ class Portal extends CI_Controller {
         $data["msg"] = "";
         $data["errormsg"] = "";
         $data["setting"] = $this->setting_model->setting_list();
+        $data['supervisors'] = $this->user_model->get_supervisors();
         if( isset($_POST["save_company"]) ) {
             $this->form_validation->set_rules('name', 'Name', 'required');
             $this->form_validation->set_rules('address', 'Address', 'required');
             $this->form_validation->set_rules('contact', 'Contact', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
+            $this->form_validation->set_rules('supervisor', 'Supervisor', 'required');
         
             if ($this->form_validation->run() === TRUE)
             {
@@ -789,6 +793,7 @@ class Portal extends CI_Controller {
         $data["msg"] = "";
         $data["errormsg"] = "";
         $data["setting"] = $this->setting_model->setting_list();
+        $data['supervisors'] = $this->user_model->get_supervisors();
 
         if (empty($id)) { 
             show_404();
@@ -798,8 +803,8 @@ class Portal extends CI_Controller {
                 $this->form_validation->set_rules('address', 'Address', 'required');
                 $this->form_validation->set_rules('contact', 'Contact', 'required');
                 $this->form_validation->set_rules('email', 'Email', 'required');
-              
-            
+                $this->form_validation->set_rules('supervisor', 'Supervisor', 'required');
+                
                 if ($this->form_validation->run() === TRUE)
                 {
                     $this->setting_model->update_company();

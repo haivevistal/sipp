@@ -111,15 +111,22 @@
             if( id == '4' ) {
                 jQuery('.studentshow').removeClass("hidediv");
             }
+            if( id == '2' ) {
+                jQuery('.supervisorshow').removeClass("hidediv");
+            }
         }
         jQuery(document).ready( function() {
             jQuery(document).on('change', 'select[name="usertype"]', function() {
                 let val = jQuery(this).val();
                 if( val == '4' ) {
                     jQuery('.studentshow').removeClass("hidediv");
+                } else if( val == '2' ) {
+                    jQuery('.supervisorshow').removeClass("hidediv");
                 } else {
                     jQuery('.studentshow').addClass("hidediv");
+                    jQuery('.supervisorshow').addClass("hidediv");
                 }
+                
             });
             jQuery(document).on('change', '.rating', function() {
                 let id = jQuery(this).attr("data-id");

@@ -64,7 +64,7 @@
                     "eighteen" => array( "evaluation_sheet","Appendices - Evaluation Sheet"),
                     "nineteen" => array( "resume","Appendices - Resume"),
                   );
-                  $exclude = array("seven");
+                  $exclude = array();
                   $c = 0; 
                   $portfolio = $portfolio ? (array)$portfolio[0] : array();
                   foreach( $fields as $key => $val ) {
@@ -79,6 +79,34 @@
                           <div class="accordion-body">
                             <?php if( in_array($key, $exclude) ) { ?>
                                 <button class="btn btn-primary">Generate</button>
+                            <?php } else if( $key == 'seven') { ?>
+                                <div class="row">
+                                    <table id="" class="table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Activity Name</th>
+                                               <!-- <th>Type</th>-->
+                                                <th>Description</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($activities as $ac) : ?>
+                                            <tr>
+                                                <td><?php echo $ac->title; ?></td>
+                                               <!-- <td><?php echo $this->setting_model->get_activitytype_by_id($ac->activity_type_id)->name; ?></td>-->
+                                                <td><?php echo $ac->description; ?></td>
+                                                <td><?php echo date('M d, Y', strtotime($ac->activity_date) ); ?></td>
+                                                <td><?php echo date('M d, Y', strtotime($ac->activity_date) ); ?></td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="display:none">
+                                    <textarea name="pictures"><?php echo $images; ?></textarea>
+                                </div>
                             <?php } else if( $key == 'fourteen') { ?>
                                 <div class="row">
                                     <?php 

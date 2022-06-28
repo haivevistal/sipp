@@ -32,6 +32,8 @@
                                     <th>Name</th>
                                     <th>Address</th>
                                     <th>Contact</th>
+                                    <th>Email</th>
+                                    <th>Supervisor</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -43,6 +45,13 @@
                                         <td><?php echo $company->name; ?></td>
                                         <td><?php echo $company->address; ?></td>
                                         <td><?php echo $company->contact; ?></td>
+                                        <td><?php echo $company->email; ?></td>
+                                        <td>
+                                        <?php
+                                            $user = $this->user_model->get_user_by_id($company->supervisor);
+                                            echo $user->firstname." ".$user->lastname;
+                                        ?>
+                                        </td>
                                         <td>
                                             <a href="<?php echo base_url(); ?>portal/edit_company/<?php echo $company->id?>">
                                                 <i class="fa fa-pencil" data-toggle="tooltip" title="Edit"><span class="badge badge-warning">Edit</span></i>

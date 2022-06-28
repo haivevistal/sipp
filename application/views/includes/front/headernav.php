@@ -18,31 +18,21 @@
                             </div>
                             <div class="login-logout-btns" style="margin-top: 10px;">
                                 <?php
-                                    $timeinsession1 = $this->session->userdata( 'timein_one_'.date("Y-m-d")."_".$this->session->userdata('user_id') );
-                                    $timeoutsession1 = $this->session->userdata( 'timeout_one_'.date("Y-m-d")."_".$this->session->userdata('user_id') );
-                                    $timeinsession2 = $this->session->userdata( 'timein_two_'.date("Y-m-d")."_".$this->session->userdata('user_id') );
-                                    $timeoutsession2 = $this->session->userdata( 'timeout_two_'.date("Y-m-d")."_".$this->session->userdata('user_id') );
+                                    $attendance_timein1 = $this->attendance_model->attendance_exist( $this->session->userdata('user_id'), 1, "Login", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
+                                    $attendance_timein2 = $this->attendance_model->attendance_exist( $this->session->userdata('user_id'), 2, "Login", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
+                                    $this->session->has_userdata('some_name');
+                                    $timeinsession1 = 'timein_'.date("Y-m-d")."_".$this->session->userdata('user_id');
                                 ?>
                                 <?php
-                                if( $timeinsession1 == '' ) {
+                                if( !$this->session->has_userdata($timeinsession1) ) {
                                     ?>
-                                    <a href="<?php echo base_url(); ?>profile/timein/timein_one"><button class="badge bg-success" style="border: 1px solid #fff;">Time In</button></a>
+                                    <a href="<?php echo base_url(); ?>profile/timein"><button class="badge bg-success" style="border: 1px solid #fff;">Time In</button></a>
                                     <?php
                                 } else {
-                                    if( $timeoutsession1 == '' ) {
+                                    if( $attendance_timein1[0]["status"] == 1 || $attendance_timein2[0]["status"] == 1 ) {
                                         ?>
-                                        <button data-link="<?php echo base_url(); ?>profile/timeout/timeout_one" class="badge bg-warning logoutbtn" style="border: 1px solid #fff;" data-bs-toggle="modal" data-bs-target="#timeoutModal">Time Out</button>
+                                            <button data-link="<?php echo base_url(); ?>profile/timeout" class="badge bg-warning logoutbtn" style="border: 1px solid #fff;" data-bs-toggle="modal" data-bs-target="#timeoutModal">Time Out</button>
                                         <?php
-                                    } else {
-                                        if( $timeinsession2 == '' ) {
-                                            ?>
-                                            <a href="<?php echo base_url(); ?>profile/timein/timein_two"><button class="badge bg-success" style="border: 1px solid #fff;">Time In</button></a>
-                                            <?php
-                                        } else {
-                                            ?>
-                                            <button data-link="<?php echo base_url(); ?>profile/timeout/timeout_two" class="badge bg-warning logoutbtn" style="border: 1px solid #fff;" data-bs-toggle="modal" data-bs-target="#timeoutModal">Time Out</button>
-                                            <?php
-                                        }
                                     }
                                 }
                                 ?>
@@ -60,9 +50,6 @@
             <div class="col-md-7 col-sm-12 col-xs-12">
                <div class="calendar" id="calendar" style="padding-top: 32px;">
                 <ul class="nav nav-pills justify-content-end profile-nav">
-                  <li class="nav-item">
-                    <a class="nav-link <?php echo $this->uri->segment(2) == '' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile">Account Home</a>
-                  </li>
                   
                   <li class="nav-item dropdown">
                     <a class="nav-link" href="javascript:;" id="incoming_activities_drop" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 1px;margin-top: -7px;margin-right:-5px;">
@@ -95,6 +82,10 @@
                         }
                         ?>
                     </div>
+                  </li>
+                  
+                  <li class="nav-item">
+                    <a class="nav-link <?php echo $this->uri->segment(2) == '' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile">Account Home</a>
                   </li>
                   
                   <li class="nav-item">

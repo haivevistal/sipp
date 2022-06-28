@@ -18,6 +18,12 @@ class User_model extends CI_Model {
         return $query->result();
     }
     
+    public function get_supervisors()
+    {
+        $query = $this->db->get_where('users', array('usertype' => 2));
+        return $query->result();
+    }
+    
     public function get_user_by_id($id)
     {
         $query = $this->db->get_where('users', array('id' => $id));

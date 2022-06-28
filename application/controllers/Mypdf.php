@@ -87,6 +87,8 @@ class createPDF {
             $pdf->PutMainTitle($this->_convert($cont[1]));
             if( $cont[1] == 'Appendices - Daily Time Record' ) {
                 $pdf->FancyTable( array("Type", "Date", "Time", "Status"), $cont[0]);
+            } else if( $cont[1] == 'Weekly Narrative Report' ) {
+                $pdf->FancyTable( array("Name","Description", "Date", "Start", "End"), $cont[0]);
             } else {
                 $htm = $this->cleanhtml($cont[0]);
                 $pdf->WriteHTML($this->_convert(stripslashes($htm)),$this->bi);

@@ -130,14 +130,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row studentshow hidediv">
-                                <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-6 studentshow hidediv">
                                     <div class="form-group">
                                         <label>Total Hours</label>
                                         <input type="text" name="total_hours" class="form-control" value="<?php echo $user->total_hours; ?>" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 studentshow supervisorshow hidediv">
                                     <div class="form-group">
                                         <label>Company</label>
                                         <select name="company_id" class="form-control">

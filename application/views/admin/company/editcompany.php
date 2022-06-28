@@ -33,8 +33,23 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>HTE/Supervisor Name</label>
+                                        <label>Company Name</label>
                                         <input type="text" name="name" class="form-control" value="<?php echo $comp->name; ?>" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Supervisor</label>
+                                        <select name="supervisor" class="form-control" required="">
+                                            <option value="">Select Supervisor</option>
+                                            <?php
+                                            foreach( $supervisors as $sp ) {
+                                                ?>
+                                                <option <?php echo $sp->id == $comp->supervisor ? "selected": ""; ?> value="<?php echo $sp->id; ?>"><?php echo $sp->firstname; ?> <?php echo $sp->lastname; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -54,7 +69,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="text" name="email" class="form-control" required>
+                                        <input type="text" name="email" class="form-control" value="<?php echo $comp->email; ?>" required>
                                     </div>
                                 </div>
                             </div>

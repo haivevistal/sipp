@@ -32,8 +32,23 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>HTE Supervisor Name</label>
+                                        <label>Company Name</label>
                                         <input type="text" name="name" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Supervisor</label>
+                                        <select name="supervisor" class="form-control" required="">
+                                            <option value="">Select Supervisor</option>
+                                            <?php
+                                            foreach( $supervisors as $sp ) {
+                                                ?>
+                                                <option value="<?php echo $sp->id; ?>"><?php echo $sp->firstname; ?> <?php echo $sp->lastname; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">

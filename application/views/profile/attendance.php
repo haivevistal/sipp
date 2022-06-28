@@ -27,7 +27,12 @@
                     <tr>
                         <td><?php echo $at->title; ?></td>
                         <td><?php echo $at->description; ?></td>
-                        <td><?php echo $at->company; ?></td>
+                        <td>
+                        <?php
+                            $comp = $this->setting_model->get_company_by_id($at->company);
+                            echo $comp->name;
+                        ?>
+                        </td>
                         <td><?php echo date("F d, Y  ", strtotime($at->date_time) ); ?></td>
                        
                          <td ><?php echo date("h:i A", strtotime($at->date_time) ); ?></td>

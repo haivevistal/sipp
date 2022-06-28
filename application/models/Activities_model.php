@@ -28,6 +28,9 @@ class Activities_model extends CI_Model {
         $this->db->order_by('save_date_time', "desc");
         $this->db->select('users.firstname,users.lastname, activities.*');
         $this->db->join('users', 'users.id = activities.user_id');
+        if($this->session->userdata('admin_usertype') == 2) {
+            $this->db->where("users.company_id", $this->session->userdata('admin_companyid'));
+        }
         $query = $this->db->get("activities");
         return $query->result();
     }
