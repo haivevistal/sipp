@@ -68,9 +68,7 @@ class Attendance_model extends CI_Model {
 
     public function update_attendance()
     {
-        
         $data = array(
-
             'title' => $this->input->post('title'),
             'description' => $this->input->post('description'),
             'start_date_time' => $this->input->post('start_date_time'),

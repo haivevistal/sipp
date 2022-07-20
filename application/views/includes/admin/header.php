@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,9 +41,22 @@
     }
     .below_reports_table { margin-top: 45px;}
     .print_floating_btn {
+        z-index: 999;
         position: absolute;
-        top: 85px;
-        right: 25px;
+        top: 15px;
+        margin-left: 23px;
+    }
+    .print_floating_option {
+        height: 40px;
+        border: 1px solid #111;
+        padding: 0 5px;
+        border-radius: 5px;
+        margin-top: 14px;
+    }
+    .floating_filters {
+        position: absolute;
+        top: 0;
+        left: 240px;
         z-index: 999;
     }
     .txt_before { display:none;}

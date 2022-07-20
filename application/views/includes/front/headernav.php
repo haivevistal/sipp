@@ -18,21 +18,31 @@
                             </div>
                             <div class="login-logout-btns" style="margin-top: 10px;">
                                 <?php
+                                    $total_attendance = intval($this->setting_model->get_setting('total-counter-attendance')->value); // 2
+                                    $total_log_attendance = $this->setting_model->get_last_attendance(); // 2
                                     $attendance_timein1 = $this->attendance_model->attendance_exist( $this->session->userdata('user_id'), 1, "Login", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
                                     $attendance_timein2 = $this->attendance_model->attendance_exist( $this->session->userdata('user_id'), 2, "Login", date("Y-m-d 00:00:01"), date("Y-m-d 23:59:59") );
                                     $this->session->has_userdata('some_name');
                                     $timeinsession1 = 'timein_'.date("Y-m-d")."_".$this->session->userdata('user_id');
                                 ?>
                                 <?php
-                                if( !$this->session->has_userdata($timeinsession1) ) {
-                                    ?>
-                                    <a href="<?php echo base_url(); ?>profile/timein"><button class="badge bg-success" style="border: 1px solid #fff;">Time In</button></a>
-                                    <?php
-                                } else {
-                                    if( $attendance_timein1[0]["status"] == 1 || $attendance_timein2[0]["status"] == 1 ) {
+                                if( $total_attendance != $total_log_attendance ) {
+                                    if( !$this->session->has_userdata($timeinsession1) ) {
                                         ?>
-                                            <button data-link="<?php echo base_url(); ?>profile/timeout" class="badge bg-warning logoutbtn" style="border: 1px solid #fff;" data-bs-toggle="modal" data-bs-target="#timeoutModal">Time Out</button>
+                                        <a href="<?php echo base_url(); ?>profile/timein"><button class="badge bg-success" style="border: 1px solid #fff;">Time In</button></a>
                                         <?php
+                                    } else {
+                                        if( trim(strtolower($this->setting_model->get_setting('hide-approval')->value)) == 'yes' ) {
+                                            ?>
+                                                <button data-link="<?php echo base_url(); ?>profile/timeout" class="badge bg-warning logoutbtn" style="border: 1px solid #fff;" data-bs-toggle="modal" data-bs-target="#timeoutModal">Time Out</button>
+                                            <?php
+                                        } else {
+                                            if( $attendance_timein1[0]["status"] == 1 || $attendance_timein2[0]["status"] == 1 ) {
+                                                ?>
+                                                    <button data-link="<?php echo base_url(); ?>profile/timeout" class="badge bg-warning logoutbtn" style="border: 1px solid #fff;" data-bs-toggle="modal" data-bs-target="#timeoutModal">Time Out</button>
+                                                <?php
+                                            }
+                                        }
                                     }
                                 }
                                 ?>
@@ -51,6 +61,7 @@
                <div class="calendar" id="calendar" style="padding-top: 32px;">
                 <ul class="nav nav-pills justify-content-end profile-nav">
                   
+                  <?php if( trim(strtolower($this->setting_model->get_setting('hide-activity')->value)) == 'no' ) { ?>
                   <li class="nav-item dropdown">
                     <a class="nav-link" href="javascript:;" id="incoming_activities_drop" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 1px;margin-top: -7px;margin-right:-5px;">
                         <button type="button" class="btn btn-info position-relative bi bi-bell" style="color:#fff !important;">
@@ -83,14 +94,17 @@
                         ?>
                     </div>
                   </li>
+                  <?php } ?>
                   
                   <li class="nav-item">
                     <a class="nav-link <?php echo $this->uri->segment(2) == '' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile">Account Home</a>
                   </li>
                   
+                  <?php if( trim(strtolower($this->setting_model->get_setting('hide-activity')->value)) == 'no' ) { ?>
                   <li class="nav-item">
                     <a  style="margin-right:30px;" class="nav-link <?php echo $this->uri->segment(2) == 'activities' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile/activities">Activities</a>
                   </li>
+                  <?php } ?>
                   
                   <!--
                   <li class="nav-item">
@@ -101,7 +115,7 @@
                     <a class="nav-link <?php echo $this->uri->segment(2) == 'update' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile/update">Update Profile</a>
                   </li>-->
                    <li class="nav-item">
-                   <a style="margin-left:-20px;"class="nav-link <?php echo $this->uri->segment(2) == 'attendance' || $this->uri->segment(2) == 'add_attendance' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile/attendance">My Attendance</a>
+                   <a style="<?php if( trim(strtolower($this->setting_model->get_setting('hide-activity')->value)) == 'no' ) { ?>margin-left:-20px;<?php } ?>"class="nav-link <?php echo $this->uri->segment(2) == 'attendance' || $this->uri->segment(2) == 'add_attendance' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile/attendance">My Attendance</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link <?php echo $this->uri->segment(2) == 'submit_portfolio' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile/submit_portfolio">Submit Portfolio</a>

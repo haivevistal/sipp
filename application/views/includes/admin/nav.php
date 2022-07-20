@@ -34,6 +34,7 @@
     
     
     
+    <?php if( trim(strtolower($this->setting_model->get_setting('hide-activity')->value)) == 'no' ) { ?>
     <?php
         $activitiespages = array("activities", "add_activity", "edit_activity");
     ?>
@@ -51,6 +52,7 @@
             </div>
         </div>
     </li>
+    <?php } ?>
     
     <?php
         $announcementspages = array("announcements", "add_announcement", "edit_announcement");
@@ -113,7 +115,7 @@
             Reports
         </div>
         <?php
-            $reportpages = array("reports", "annual_reports", "list_host_reports", "daily_time_record");
+            $reportpages = array("reports", "issues_concerns", "list_host_reports");
         ?>
         <li class="nav-item <?php if( in_array($this->uri->segment(2), $reportpages ) ) { ?>active<?php } ?>">
             <a class="nav-link <?php if( in_array($this->uri->segment(2), $reportpages ) ) { ?><?php } else { ?>collapsed<?php } ?>" href="#" data-toggle="collapse" data-target="#collapseReports"
@@ -123,11 +125,19 @@
             </a>
             <div id="collapseReports" class="collapse <?php if( in_array($this->uri->segment(2), $reportpages ) ) { ?>show<?php } ?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item <?php if( $this->uri->segment(2) == 'annual_reports' ) { ?>active<?php } ?>" href="<?php echo base_url(); ?>portal/annual_reports/">Annual Report</a>
+                    <a class="collapse-item <?php if( $this->uri->segment(2) == 'issues_concerns' ) { ?>active<?php } ?>" href="<?php echo base_url(); ?>portal/issues_concerns/">Issues and Concerns</a>
                     <a class="collapse-item <?php if( $this->uri->segment(2) == 'list_host_reports' ) { ?>active<?php } ?>" href="<?php echo base_url(); ?>portal/list_host_reports/">List Host Report</a>
-                    <a class="collapse-item <?php if( $this->uri->segment(2) == 'daily_time_record' ) { ?>active<?php } ?>" href="<?php echo base_url(); ?>portal/daily_time_record/">Daily Time Record</a>
                 </div>
             </div>
+        </li>
+        
+        <?php
+            $dtr = array("daily_time_record");
+        ?>
+        <li class="nav-item <?php if( in_array($this->uri->segment(2), $dtr ) ) { ?>active<?php } ?>">
+            <a class="nav-link <?php if( in_array($this->uri->segment(2), $dtr ) ) { ?><?php } else { ?>collapsed<?php } ?>" href="<?php echo base_url(); ?>portal/daily_time_record">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Daily Time Record</span></a>
         </li>
         
         <?php
@@ -172,6 +182,15 @@
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Complaints</span></a>
         </li>
+        
+        <?php
+            $messages = array("messages", "delete_message");
+        ?>
+        <li class="nav-item <?php if( in_array($this->uri->segment(2), $messages ) ) { ?>active<?php } ?>">
+            <a class="nav-link <?php if( in_array($this->uri->segment(2), $messages ) ) { ?><?php } else { ?>collapsed<?php } ?>" href="<?php echo base_url(); ?>portal/messages">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Messages</span></a>
+        </li>
 
         <?php
             $coursespages = array("courses", "add_course", "edit_course");
@@ -190,7 +209,14 @@
             </div>
         </li>
       
-     
+        <?php
+            $uploads = array("uploads", "delete_upload");
+        ?>
+        <li class="nav-item <?php if( in_array($this->uri->segment(2), $uploads ) ) { ?>active<?php } ?>">
+            <a class="nav-link <?php if( in_array($this->uri->segment(2), $uploads ) ) { ?><?php } else { ?>collapsed<?php } ?>" href="<?php echo base_url(); ?>portal/uploads">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Uploads</span></a>
+        </li>
         
         <!-- Nav Item - Utilities Collapse Menu -->
         <?php

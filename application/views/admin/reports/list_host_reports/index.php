@@ -20,8 +20,8 @@
 
             <div class="row">
                 <div class="col-md-12">
-                <h5>HEI: <span class="txt_before"></span><input type="text" name="hei" class="report_fields" style="width:48%;" /></h5>
-                <h5>ADDRESS: <span class="txt_before"></span><input type="text" name="address" class="report_fields" style="width:62%;" /></h5>
+                <h5>HEI: <span class="txt_before"></span><input value="<?php echo $this->setting_model->get_setting('issues-concerns-hei')->value; ?>" type="text" name="hei" class="report_fields" style="width:48%;" /></h5>
+                <h5>ADDRESS: <span class="txt_before"></span><input value="<?php echo $this->setting_model->get_setting('issues-concerns-address')->value; ?>" type="text" name="address" class="report_fields" style="width:62%;" /></h5>
                 </div>
             </div>
             
@@ -64,12 +64,12 @@
                     <table width="100%" class="below_reports_table">
                         <tr>
                             <td width="34%" align="left">
-                                <strong>PREPARED BY: <br /><div class="txt_before prepared_by_div" style="width:65%;text-align:center;font-size:15px;margin-bottom: -15px;border-bottom: 1px solid #111;"></div><input type="text" name="prepared_by" class="report_fields" style="width:65%;text-align:center;font-size:15px;" /></strong><br />
+                                <strong>PREPARED BY: <br /><div class="txt_before prepared_by_div" style="width:65%;text-align:center;font-size:15px;margin-bottom: -15px;border-bottom: 1px solid #111;"></div><input type="text" name="prepared_by" class="report_fields" value="<?php echo $this->setting_model->get_setting('issues-concerns-prepared-by')->value; ?>" style="width:65%;text-align:center;font-size:15px;" /></strong><br />
                                 <div style="width:65%;text-align:center;">(Name and Signature)</div>
                             </td>
                             <td width="33%" align="center"></td>
                             <td width="33%" align="left">
-                                <strong>CERTIFIED CORRECT: <br /><div class="txt_before corrected_by_div" style="width:65%;text-align:center;font-size:15px;margin-bottom: -15px;border-bottom: 1px solid #111;"></div><input type="text" name="corrected_by" class="report_fields" style="width:65%;text-align:center;font-size:15px;" /></strong><br />
+                                <strong>CERTIFIED CORRECT: <br /><div class="txt_before corrected_by_div" style="width:65%;text-align:center;font-size:15px;margin-bottom: -15px;border-bottom: 1px solid #111;"></div><input type="text" name="corrected_by" value="<?php echo $this->setting_model->get_setting('issues-concerns-corrected-by')->value; ?>" class="report_fields" style="width:65%;text-align:center;font-size:15px;" /></strong><br />
                                 <div style="width:65%;text-align:center;">(Name and Signature)</div>
                             </td>
                         </tr>

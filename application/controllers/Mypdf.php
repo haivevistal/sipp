@@ -85,8 +85,8 @@ class createPDF {
         foreach( $this->content as $cont ) {
             $pdf->AddPage();
             $pdf->PutMainTitle($this->_convert($cont[1]));
-            if( $cont[1] == 'Appendices - Daily Time Record' ) {
-                $pdf->FancyTable( array("Type", "Date", "Time", "Status"), $cont[0]);
+            if( $cont[1] == 'Daily Time Record' ) {
+                $pdf->FancyTable( array("Date", "Info", "Company", "Time", "Duration"), $cont[0]);
             } else if( $cont[1] == 'Weekly Narrative Report' ) {
                 $pdf->FancyTable( array("Name","Description", "Date", "Start", "End"), $cont[0]);
             } else {

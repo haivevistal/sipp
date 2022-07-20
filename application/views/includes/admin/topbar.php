@@ -86,6 +86,7 @@
         <?php } ?>
         
        <?php if( $this->session->userdata('admin_usertype') == 2 ) { ?>
+       <?php if( trim(strtolower($this->setting_model->get_setting('hide-message')->value)) == 'no' ) { ?>
        <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="modal" data-target="#sendMessageModal">
                 <span class="btn btn-primary">
@@ -94,8 +95,10 @@
             </a>
         </li>
        <?php } ?>
+       <?php } ?>
         
         <?php if( $this->session->userdata('admin_usertype') == 1 ) { ?>
+        <?php if( trim(strtolower($this->setting_model->get_setting('hide-message')->value)) == 'no' ) { ?>
         <!-- Nav Item - Messages -->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
@@ -127,6 +130,7 @@
                 <?php } ?>
             </div>
         </li>
+        <?php } ?>
         <?php } ?>
 
         <div class="topbar-divider d-none d-sm-block"></div>

@@ -34,6 +34,7 @@
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="userprofiledrop">
                         <li><a class="dropdown-item <?php echo $this->uri->segment(2) == '' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile">View My Account</a></li>
+                        <li><a class="dropdown-item <?php echo $this->uri->segment(2) == 'uploads' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>/profile/uploads">Uploads</a></li>
                         <li><a class="dropdown-item <?php echo $this->uri->segment(2) == 'update' ? "active" : "not-active";?>" href="<?php echo base_url(); ?>profile/update">Update Profile</a></li>
                         
                         <li><a class="dropdown-item" href="<?php echo base_url(); ?>front/user_logout"><span class="badge bg-dark" style="font-size: 15px;">Sign Out</span></a></li>

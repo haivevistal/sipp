@@ -39,6 +39,7 @@ class Announcement_model extends CI_Model {
         $data = array(
             'title' => $this->input->post('title'),
             'description' => $this->input->post('description'),
+            'added_by' => $this->session->userdata('user_id'),
             'save_date' => date("Y-m-d H:i:s")
         );
         return $this->db->insert("announcements", $data);

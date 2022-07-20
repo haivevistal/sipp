@@ -36,6 +36,7 @@ class User_model extends CI_Model {
             'firstname'  => $this->input->post('firstname'),
             'lastname' => $this->input->post('lastname'),
             'phone' => $this->input->post('phone'),
+            'emergency_phone' => $this->input->post('emergency_phone'),
             'email' => $this->input->post('email'),
             'username' => $this->input->post('username'),
             'bio' => $this->input->post('bio'),
@@ -66,6 +67,7 @@ class User_model extends CI_Model {
             'lastname'  => $this->input->post('lastname'),
             'email' => $this->input->post('email'),
             'phone' => $this->input->post('phone'),
+            'emergency_phone' => $this->input->post('emergency_phone'),
             'username' => $this->input->post('username'),
             'bio' => $this->input->post('bio'),
             'gender' => $this->input->post('gender'),
@@ -126,6 +128,45 @@ class User_model extends CI_Model {
             return true;
         } else {
             return false;
+        }
+    }
+    
+    public function check_email_exist($email)
+    {
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('email', $email);
+        $query = $this->db->get();
+        if( $query->num_rows() == 0 ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    public function check_phone_exist($phone)
+    {
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('phone', $phone);
+        $query = $this->db->get();
+        if( $query->num_rows() == 0 ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    public function check_username_exist($username)
+    {
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('username', $username);
+        $query = $this->db->get();
+        if( $query->num_rows() == 0 ) {
+            return false;
+        } else {
+            return true;
         }
     }
     

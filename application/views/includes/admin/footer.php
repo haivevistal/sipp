@@ -89,7 +89,9 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
+    <?php if($this->uri->segment(2) != 'uploads') { ?>
     <script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.min.js"></script>
+    
     <script src="<?php echo base_url(); ?>assets/vendor/admin/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -97,15 +99,11 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?php echo base_url(); ?>assets/admin/js/sb-admin-2.min.js"></script>
+    <?php } ?>
     
-    <script src="<?php echo base_url(); ?>assets/ckeditor4/ckeditor.js"></script>
-    
-    <script>
-        jQuery(document).ready(function() {
-            jQuery('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-    <script>
+    <?php if($this->uri->segment(2) != 'uploads') { ?>
+        <script src="<?php echo base_url(); ?>assets/ckeditor4/ckeditor.js"></script>
+        <script>
         showstudentdiv( jQuery('select[name="usertype"]').val() );
         function showstudentdiv(id) {
             if( id == '4' ) {
@@ -194,6 +192,22 @@
                 let messagecounter = parseInt( jQuery(".message-counter").text() );
                 jQuery(".message-counter").text( messagecounter - 1 );
             });
+        });
+        
+        jQuery("#issues_concerns_report_type").change( function() {
+           let option = jQuery(this).val();
+           window.location.href = "/portal/issues_concerns/" + option;
+        });
+        
+        jQuery("#start_date_filter").change( function() {
+           let option = jQuery("#issues_concerns_report_type").val();
+           window.location.href = "/portal/issues_concerns/" + option + "/" + jQuery(this).val();
+        });
+        
+        jQuery("#end_date_filter").change( function() {
+            let start = jQuery("#start_date_filter").val();
+           let option = jQuery("#issues_concerns_report_type").val();
+           window.location.href = "/portal/issues_concerns/" + option + "/" + start + "/" + jQuery(this).val();
         });
         
         jQuery(function () {
@@ -286,7 +300,9 @@
           removeButtons: 'PasteFromWord'
         });
     </script>
-
+    <?php } else { ?>
+    
+    <?php } ?>
 </body>
 
 </html>

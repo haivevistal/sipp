@@ -31,14 +31,24 @@
                             <?php foreach($setting as $set) { ?>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label><?php echo strtoupper(str_replace('_',' ', $set->code)); ?></label>
+                                        <label><?php echo strtoupper(str_replace('-',' ', $set->code)); ?></label>
                                         <?php if($set->data_type == 'textarea') { ?>
                                             <textarea name="setting[textarea_<?php echo $set->code; ?>]" class="form-control"><?php echo $set->value; ?></textarea>
-                                        <?php } else if($set->data_type == 'select') { ?>
-                                            
+                                        <?php } else if($set->data_type == 'select') { 
+                                            $expl_values = explode(",", $set->options);
+                                            ?>
+                                            <select name="setting[select_<?php echo $set->code; ?>]" class="form-control">
+                                            <?php
+                                            foreach( $expl_values as $option ) {
+                                                ?>
+                                                <option value="<?php echo $option; ?>" <?php echo trim($option) == trim($set->value) ? 'selected' : ''; ?>><?php echo $option; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                            </select>
 
                                         <?php } else if($set->data_type == 'image') { ?>
-                                        <input type="hidden" name="images[<?php echo $set->code; ?>]" />
+                                            <input type="hidden" name="images[<?php echo $set->code; ?>]" />
                                             <input type="file" name="<?php echo $set->code; ?>" class="form-control" value="<?php echo $set->value; ?>" />
                                             <img src="/assets/uploads/setting/<?php echo $set->value; ?>" alt="image" style="height:50px;" />
                                         <?php } else { ?>

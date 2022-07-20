@@ -67,6 +67,12 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
+                                        <label>Emergency Phone</label>
+                                        <input type="text" name="emergency_phone" class="form-control" required value="<?php echo $user->emergency_phone; ?>" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
                                         <label>Gender</label>
                                         <select name="gender" class="form-control">
                                             <option value="m" <?php echo $user->gender == 'm' ? 'selected' : ''; ?>>Male</option>
@@ -90,7 +96,13 @@
                                         <select name="usertype" class="form-control" required>
                                             <option value="">Select User Type</option>
                                             <?php foreach($user_types as $usertype) { ?>
-                                                <option value="<?php echo $usertype->id; ?>" <?php echo $user->usertype == $usertype->id ? 'selected' : ''; ?>><?php echo $usertype->type_desc; ?></option>
+                                                <?php if( trim(strtolower($this->setting_model->get_setting('hide-supervisor')->value)) == 'yes' ) { ?>
+                                                    <?php if( $usertype->id != 2 ) { ?>
+                                                        <option value="<?php echo $usertype->id; ?>" <?php echo $user->usertype == $usertype->id ? 'selected' : ''; ?>><?php echo $usertype->type_desc; ?></option>
+                                                    <?php } ?>
+                                                <?php } else { ?>
+                                                    <option value="<?php echo $usertype->id; ?>" <?php echo $user->usertype == $usertype->id ? 'selected' : ''; ?>><?php echo $usertype->type_desc; ?></option>
+                                                <?php } ?>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -120,13 +132,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Start Date</label>
-                                        <input type="date" name="start_ojt" class="form-control" value="<?php echo date('Y-m-d', strtotime($user->start_ojt) ); ?>" />
+                                        <input type="date" name="start_ojt" class="form-control" value="<?php echo date('Y-m-d', strtotime($user->start_ojt) ); ?>" min="<?php echo date("Y-m-d"); ?>" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>End Date</label>
-                                        <input type="date" name="end_ojt" class="form-control" value="<?php echo date('Y-m-d', strtotime($user->end_ojt) ); ?>" />
+                                        <input type="date" name="end_ojt" class="form-control" value="<?php echo date('Y-m-d', strtotime($user->end_ojt) ); ?>" min="<?php echo date("Y-m-d"); ?>" />
                                     </div>
                                 </div>
                             </div>

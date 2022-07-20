@@ -36,6 +36,7 @@
                                         <input type="text" name="name" class="form-control" required>
                                     </div>
                                 </div>
+                                <?php if( $this->setting_model->get_setting('hide-supervisor')->value == 'no') { ?>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Supervisor</label>
@@ -51,6 +52,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Company Address</label>

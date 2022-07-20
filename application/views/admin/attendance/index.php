@@ -29,28 +29,28 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                               
                                     <th>User</th>
                                     <!--<th>Title</th>-->
                                     <th>Attendance type</th>
                                     <th>Date</th>
                                     <th>Time</th>
                                     <th>Attach</th>
+                                    <?php if( trim(strtolower($this->setting_model->get_setting('hide-approval')->value)) == 'no' ) { ?>
                                     <th>Status</th>
+                                    <?php }?>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if($attendances): ?>
                                     <?php foreach($attendances as $attendance): ?>
                                         <tr>
-                                  
                                             <td><?php echo $attendance->firstname." ".$attendance->lastname;?></td>
-                                           <!-- <td><?php echo $attendance->title; ?></td>-->
+                                            <!-- <td><?php echo $attendance->title; ?></td>-->
                                             <td><?php echo $attendance->description; ?></td> 
                                           
-                                             <td ><?php echo date("F d, Y", strtotime($attendance->date_time) ); ?></td>
-                                              <td ><?php echo date("h:i A", strtotime($attendance->date_time) ); ?></td>
-                                              <td >
+                                            <td><?php echo date("F d, Y", strtotime($attendance->date_time) ); ?></td>
+                                            <td><?php echo date("h:i A", strtotime($attendance->date_time) ); ?></td>
+                                            <td>
                                               <?php 
                                               if( $attendance->image ) {
                                                   ?>
@@ -60,8 +60,9 @@
                                                   echo 'N/A';
                                               }
                                               ?>
-                                              </td>
-                                              <td>
+                                            </td>
+                                            <?php if( trim(strtolower($this->setting_model->get_setting('hide-approval')->value)) == 'no' ) { ?>
+                                            <td>
                                                 <?php 
                                                     if( $this->session->userdata('admin_usertype') == 2 ) {
                                                         if( $attendance->status == 0 ) {
@@ -75,9 +76,10 @@
                                                         echo $attendance->status == 0 ? "Pending" : "Approved";
                                                     }
                                                 ?>
-                                              </td>
-                                             <!-- <td>
-                                              <a href="<?php echo base_url(); ?>portal/edit_attendance/<?php echo $attendance->id?>">
+                                            </td>
+                                            <?php } ?>
+                                            <!-- <td>
+                                                <a href="<?php echo base_url(); ?>portal/edit_attendance/<?php echo $attendance->id?>">
                                                     <i class="fa fa-pencil" data-toggle="tooltip" title="Edit"><span class="badge badge-warning">Edit</span></i>
                                                 </a>
                                                 <a href="<?php echo base_url(); ?>portal/delete_attendance/<?php echo $attendance->id?>" class="delete" onClick="return confirm('Are you sure you want to delete?');" class="edit">

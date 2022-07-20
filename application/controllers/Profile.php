@@ -56,7 +56,8 @@ class Profile extends CI_Controller {
                             'description' => "Login",
                             'date_time' => date("Y-m-d H:i:s"),
                             'company' => $this->session->userdata('company_id'),
-                            'save_date_time' => date("Y-m-d H:i:s")
+                            'save_date_time' => date("Y-m-d H:i:s"),
+                            'status' => 1
                         );
                         $this->attendance_model->insert_attendance($data);
                     }
@@ -69,7 +70,8 @@ class Profile extends CI_Controller {
                     'description' => "Login",
                     'date_time' => date("Y-m-d H:i:s"),
                     'company' => $this->session->userdata('company_id'),
-                    'save_date_time' => date("Y-m-d H:i:s")
+                    'save_date_time' => date("Y-m-d H:i:s"),
+                    'status' => 1
                 );
                 $this->attendance_model->insert_attendance($data);
             }
@@ -117,7 +119,8 @@ class Profile extends CI_Controller {
                             'date_time' => date("Y-m-d H:i:s"),
                             'company' => $this->session->userdata('company_id'),
                             'image' => $_FILES["attachement"]["name"],
-                            'save_date_time' => date("Y-m-d H:i:s")
+                            'save_date_time' => date("Y-m-d H:i:s"),
+                            'status' => 1
                         );
                         $this->attendance_model->insert_attendance($data);
                     }
@@ -131,7 +134,8 @@ class Profile extends CI_Controller {
                     'date_time' => date("Y-m-d H:i:s"),
                     'company' => $this->session->userdata('company_id'),
                     'image' => $_FILES["attachement"]["name"],
-                    'save_date_time' => date("Y-m-d H:i:s")
+                    'save_date_time' => date("Y-m-d H:i:s"),
+                    'status' => 1
                 );
                 $this->attendance_model->insert_attendance($data);
             }
@@ -327,16 +331,51 @@ class Profile extends CI_Controller {
     
     /* Update Profile */
     public function submit_portfolio() {
+        set_time_limit(0);
+        error_reporting(E_ALL);
         $data = array();
         if( $this->session->userdata('user_id') ) {
             $data['user'] = $this->user_model->get_user_by_id( $this->session->userdata('user_id') );
             $data["portfolio"] = $this->user_model->get_portfolio( $this->session->userdata('user_id') );
-            $data["attendance"] = $this->user_model->get_attendance_images( $this->session->userdata('user_id') );
+            $data["attendance"] = $this->attendance_model->user_attendance();
+            $data["attendances"] = $this->attendance_model->dtr_lists( $this->session->userdata('user_id') );
             $data["activities"] = $this->activities_model->user_activities();
             
+            $new_attendances = array();
+            foreach($data["attendances"] as $atd) {
+                $comp = $this->setting_model->get_company_by_id($atd->company);
+                $new_attendances[date("Y_m_d", strtotime($atd->date_time) )."_".$atd->user_id][] = array(
+                    'date' => date("F d, Y", strtotime($atd->date_time) ),
+                    'info' => $atd->firstname." ".$atd->lastname,
+                    'company' => $comp->name,
+                    'time' => date("h:i A", strtotime($atd->date_time) ),
+                    'duration' => strtotime($atd->date_time)
+                );
+            }
+            
             $data_attendance = array();
-            foreach( $data["attendance"] as $atd ) {
-                $data_attendance[] = array( $atd->description, date('m/d/Y', strtotime($atd->date_time) ), date('H:i', strtotime($atd->date_time) ), ($atd->status == 1 ? 'Approved' : 'Pending') );
+            foreach($new_attendances as $atrd ) {
+                $total = 0;
+                $time1 = $atrd[0]["time"];
+                $time2 = $atrd[1]["time"];
+                $time3 = $atrd[2]["time"];
+                $time4 = $atrd[3]["time"];
+                $lasttime = '';
+                if( isset($atrd[0]["duration"]) && isset($atrd[1]["duration"]) ) {
+                    $duration1 = $atrd[0]["duration"];
+                    $duration2 = $atrd[1]["duration"];
+                    $total = $total + ( $duration2 - $duration1 );
+                    $lasttime = $time2;
+                }
+                
+                if( isset($atrd[2]["duration"]) && isset($atrd[3]["duration"]) ) {
+                    $duration3 = $atrd[2]["duration"];
+                    $duration4 = $atrd[3]["duration"];
+                    $total = $total + ( $duration4 - $duration3 );
+                    $lasttime = $time4;
+                }
+                
+                $data_attendance[] = array( $atrd[0]["date"], $atrd[0]["info"], $atrd[0]["company"], ($time1 ." - ".$lasttime), number_format( ( $total / 60 ) / 60, 2) );
             }
             $data["myattendance"] = $data_attendance;
             
@@ -519,6 +558,22 @@ class Profile extends CI_Controller {
             $this->activities_model->reject_activity( $id );
             
             redirect( base_url('profile') );
+        }
+    }
+    
+    public function uploads() {
+        $this->load->helper('directory');
+        $data = array();
+        if( $this->session->userdata('user_id') ) {
+            $data["user"] = $this->user_model->get_user_by_id( $this->session->userdata('user_id') );
+            $this->load->view('includes/front/header', $data);
+            $this->load->view('includes/front/headernav', $data);
+            $this->load->view('includes/front/nav', $data);
+            $this->load->view('profile/uploads', $data);
+            $this->load->view('includes/front/copyright', $data);
+            $this->load->view('includes/front/footer', $data);
+        } else {
+            redirect( base_url('/?msg=logout') );
         }
     }
 }

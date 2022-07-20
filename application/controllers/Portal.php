@@ -109,6 +109,8 @@ class Portal extends CI_Controller {
         if( isset($_POST["save_user"]) ) {
             $this->form_validation->set_rules('firstname', 'First Name', 'required');
             $this->form_validation->set_rules('lastname', 'Last Name', 'required');
+            $this->form_validation->set_rules('phone', 'Phone Number', 'required');
+            $this->form_validation->set_rules('emergency_phone', 'Emergency Phone Number', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('username', 'Username', 'required');
             $this->form_validation->set_rules('usertype', 'Type of User', 'required');
@@ -116,10 +118,18 @@ class Portal extends CI_Controller {
         
             if ($this->form_validation->run() === TRUE)
             {
-                if( $this->user_model->create() != false ) {
-                    $data["msg"] = "Successfully Saved";
+                if( $this->user_model->check_email_exist( $this->input->post('email') ) ) {
+                    $data["errormsg"] = "Email already exist! Please try again.";
+                } else if( $this->user_model->check_phone_exist( $this->input->post('phone') ) ) {
+                    $data["errormsg"] = "Phone number already exist! Please try again.";
+                } else if( $this->user_model->check_username_exist( $this->input->post('username') ) ) {
+                    $data["errormsg"] = "Username already exist! Please try again.";
                 } else {
-                    $data["errormsg"] = "Something wrong in saving user, possible duplicated information.";
+                    if( $this->user_model->create() != false ) {
+                        $data["msg"] = "Successfully Saved";
+                    } else {
+                        $data["errormsg"] = "Something wrong in saving user, possible duplicated information.";
+                    }
                 }
             }
         }
@@ -772,7 +782,6 @@ class Portal extends CI_Controller {
             $this->form_validation->set_rules('address', 'Address', 'required');
             $this->form_validation->set_rules('contact', 'Contact', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
-            $this->form_validation->set_rules('supervisor', 'Supervisor', 'required');
         
             if ($this->form_validation->run() === TRUE)
             {
@@ -803,7 +812,6 @@ class Portal extends CI_Controller {
                 $this->form_validation->set_rules('address', 'Address', 'required');
                 $this->form_validation->set_rules('contact', 'Contact', 'required');
                 $this->form_validation->set_rules('email', 'Email', 'required');
-                $this->form_validation->set_rules('supervisor', 'Supervisor', 'required');
                 
                 if ($this->form_validation->run() === TRUE)
                 {
@@ -1005,6 +1013,17 @@ class Portal extends CI_Controller {
         }
     }
     
+    public function delete_internship_plan() {
+        $this->is_logged_in();
+        $id = $this->uri->segment(3);
+        if (empty($id)) {
+            show_404();
+        }
+        
+        $res = $this->setting_model->delete_internship_plan($id);
+        redirect( base_url('portal/internship_plan') );
+    }
+    
     public function portfolio() {
         $this->is_logged_in();
         $data = array();
@@ -1017,13 +1036,19 @@ class Portal extends CI_Controller {
         $this->load->view('includes/admin/footer', $data);
     }
     
-    public function annual_reports() {
+    public function issues_concerns($type='', $start= '', $end = '') {
         $this->is_logged_in();
         $data = array();
         $data["setting"] = $this->setting_model->setting_list();
         $this->load->view('includes/admin/header', $data);
         $this->load->view('includes/admin/nav', $data);
-        $this->load->view('admin/reports/annual_reports/index', $data);
+        if($type == 'supervisor') {
+            $this->load->view('admin/reports/issues_concerns/supervisor', $data);
+        } else if( $type == 'intern' ) {
+            $this->load->view('admin/reports/issues_concerns/intern', $data);
+        } else {
+            $this->load->view('admin/reports/issues_concerns/index', $data);
+        }
         $this->load->view('includes/admin/footer', $data);
     }
     
@@ -1044,7 +1069,7 @@ class Portal extends CI_Controller {
         $data['users'] = $this->user_model->users();
         $student_id = $this->input->post('student');
         if( isset($student_id) ) {
-            $data['attendances'] = $this->attendance_model->dtr_lists($student_id);
+            $data['attendance'] = $this->attendance_model->dtr_lists($student_id);
         }
         $this->load->view('includes/admin/header', $data);
         $this->load->view('includes/admin/nav', $data);
@@ -1075,7 +1100,43 @@ class Portal extends CI_Controller {
         redirect( base_url('portal/complaints') );
     }
     
+    public function messages() {
+        $this->is_logged_in();
+        $data = array();
+        $data["setting"] = $this->setting_model->setting_list();
+        $data['users'] = $this->user_model->users();
+        $data['messages'] = $this->setting_model->get_all_seen_messages();
+        $this->load->view('includes/admin/header', $data);
+        $this->load->view('includes/admin/nav', $data);
+        $this->load->view('admin/messages/index', $data);
+        $this->load->view('includes/admin/footer', $data);
+    }
+    
+    public function delete_message() {
+        $this->is_logged_in();
+        $id = $this->uri->segment(3);
+        if (empty($id)) {
+            show_404();
+        }
+        
+        $res = $this->setting_model->delete_message($id);
+        redirect( base_url('portal/messages') );
+    }
+    
     public function updateactivityrating() {
         $this->activities_model->update_activity_rating($_POST["id"], $_POST["rating_id"], $_POST["user_id"]);
+    }
+    
+    public function uploads() {
+        $this->is_logged_in();
+        $data = array();
+        //$this->load->helper('general_helper');
+        //$opts = initialize_elfinder();
+        //$this->load->library('elfinder_lib', $opts);
+        $data["setting"] = $this->setting_model->setting_list();
+        $this->load->view('includes/admin/header', $data);
+        $this->load->view('includes/admin/nav', $data);
+        $this->load->view('admin/uploads/index', $data);
+        $this->load->view('includes/admin/footer', $data);
     }
 }

@@ -38,13 +38,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" name="firstname" class="form-control" required>
+                                        <input type="text" name="firstname" class="form-control" required value="<?php echo isset($_POST["firstname"]) ? $_POST["firstname"] : ""; ?>" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" name="lastname" class="form-control" required>
+                                        <input type="text" name="lastname" class="form-control" required value="<?php echo isset($_POST["lastname"]) ? $_POST["lastname"] : ""; ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -52,13 +52,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>User Name</label>
-                                        <input type="text" name="username" class="form-control" required>
+                                        <input type="text" name="username" class="form-control" required value="<?php echo isset($_POST["username"]) ? $_POST["username"] : ""; ?>" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="text" name="email" class="form-control" required>
+                                        <input type="text" name="email" class="form-control" required value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ""; ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Phone</label>
-                                        <input type="text" name="phone" class="form-control" required>
+                                        <input type="text" name="phone" class="form-control" required value="<?php echo isset($_POST["phone"]) ? $_POST["phone"] : ""; ?>" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Emegency Phone</label>
+                                        <input type="text" name="emergency_phone" class="form-control" required value="<?php echo isset($_POST["emergency_phone"]) ? $_POST["emergency_phone"] : ""; ?>" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -83,7 +89,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Bio</label>
-                                        <textarea name="bio" class="form-control" required></textarea>
+                                        <textarea name="bio" class="form-control" required><?php echo isset($_POST["bio"]) ? $_POST["bio"] : ""; ?></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +100,13 @@
                                         <select name="usertype" class="form-control" required>
                                             <option value="">Select User Type</option>
                                             <?php foreach($user_types as $usertype) { ?>
-                                                <option value="<?php echo $usertype->id; ?>"><?php echo $usertype->type_desc; ?></option>
+                                                <?php if( trim(strtolower($this->setting_model->get_setting('hide-supervisor')->value)) == 'yes' ) { ?>
+                                                    <?php if( $usertype->id != 2 ) { ?>
+                                                        <option value="<?php echo $usertype->id; ?>"><?php echo $usertype->type_desc; ?></option>
+                                                    <?php } ?>
+                                                <?php } else { ?>
+                                                    <option value="<?php echo $usertype->id; ?>"><?php echo $usertype->type_desc; ?></option>
+                                                <?php } ?>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -131,13 +143,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Start Date</label>
-                                        <input type="date" name="start_ojt" class="form-control"  />
+                                        <input type="date" name="start_ojt" class="form-control" value="<?php echo isset($_POST["start_ojt"]) ? $_POST["start_ojt"] : ""; ?>" min="<?php echo date("Y-m-d"); ?>" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>End Date</label>
-                                        <input type="date" name="end_ojt" class="form-control"  />
+                                        <input type="date" name="end_ojt" class="form-control" value="<?php echo isset($_POST["end_ojt"]) ? $_POST["end_ojt"] : ""; ?>" min="<?php echo date("Y-m-d"); ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +157,7 @@
                                 <div class="col-lg-6 studentshow hidediv">
                                     <div class="form-group">
                                         <label>Total Hours</label>
-                                        <input type="text" name="total_hours" class="form-control"  />
+                                        <input type="text" name="total_hours" class="form-control" value="<?php echo isset($_POST["total_hours"]) ? $_POST["total_hours"] : ""; ?>" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6 supervisorshow studentshow hidediv">

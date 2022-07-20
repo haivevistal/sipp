@@ -259,10 +259,16 @@ class Setting_model extends CI_Model {
         return $query->result();
     }
     
-    public function get_all_seen_feedbacks()
+    public function get_all_seen_feedbacks($start='',$end='')
     {
-        $this->db->where('seen', 1);
-        $query = $this->db->get("feedback");
+        $sql = "SELECT * FROM feedback WHERE seen=1";
+        if($start != '' ) {
+            $sql .= " AND date_save >= '".date('Y-m-d', strtotime($start) )."' ";
+        }
+        if($end != '' ) {
+            $sql .= " AND date_save <= '".date('Y-m-d', strtotime($end) )."' ";
+        }
+        $query = $this->db->query($sql, TRUE);
         return $query->result();
     }
     
@@ -310,6 +316,25 @@ class Setting_model extends CI_Model {
         return $query->result();
     }
     
+    public function get_all_seen_messages($start='',$end='')
+    {
+        $sql = "SELECT * FROM messages WHERE seen=1";
+        if($start != '' ) {
+            $sql .= " AND date_save >= '".date('Y-m-d', strtotime($start) )."' ";
+        }
+        if($end != '' ) {
+            $sql .= " AND date_save <= '".date('Y-m-d', strtotime($end) )."' ";
+        }
+        $query = $this->db->query($sql, TRUE);
+        return $query->result();
+    }
+    
+    public function delete_message($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete("messages");
+    }
+    
     public function seenMessage($id) {
         $data = array('seen'  => 1);
         if (!empty($id)) {
@@ -348,10 +373,24 @@ class Setting_model extends CI_Model {
         }
     }
     
+    public function delete_internship_plan($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete("internship_plan");
+    }
+    
     public function get_internship_plan_by_id($id)
     {
         $query = $this->db->get_where("internship_plan", array('id' => $id));
         return $query->row();
+    }
+    
+    public function get_last_attendance() {
+        /* SELECT COUNT(*) as counter FROM attendances WHERE count=2 AND date_time >= '2022-07-17 00:00:00' AND date_time <= '2022-07-17 11:59:59' AND user_id = 31 AND description = 'Logout' */
+        $sql = "SELECT COUNT(*) as counter FROM attendances WHERE count=2 AND date_time >= '".date('Y-m-d')." 00:00:00' AND date_time <= '".date('Y-m-d')." 23:59:59' AND user_id = ".$this->session->userdata('user_id')." ";
+        $query = $this->db->query($sql, TRUE);
+        $row = $query->result();
+        return $row[0]->counter;
     }
 
 }
